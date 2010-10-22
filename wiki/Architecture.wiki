@@ -1,0 +1,6 @@
+#summary Described different components of the plugin and how these parts combined become the whole.
+#labels Phase-Design
+
+= Introduction =
+
+
