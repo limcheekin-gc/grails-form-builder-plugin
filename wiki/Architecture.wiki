@@ -2,5 +2,173 @@
 #labels Phase-Design
 
 = Introduction =
+The Grails Form Builder Plugin consists of the following two main components:
+|Form Designer|Form Viewer|
+|Form_Designer.png|Form_Viewer.png|
 
+==Form Designer==
+===Overview===
+It is GUI to allow Form Editor to create the form and the form defined is represents in Form Template.
 
+===Designer UI==
+JQuery Form Builder chosen to be Designer UI. It will based on the works at http://blog.sonuku.com/2009/04/11/php-formbuilder/.
+
+===Form Template===
+====Template Engine====
+FreeMarker chosen to be the template engine of plugin due to the following reasons:
+  * There is FreeMarker Grails Plugin available at http://www.grails.org/plugin/freemarker.
+  * FreeMarker template do not need compilation.
+  * FreeMarker template doesn't support Scriptlet (better security).
+  * Better performance compared with GSP as mentioned in http://grails.1312388.n4.nabble.com/Freemarker-In-A-Grails-App-td1378733.html
+The Form Template will be stored in FreeMarker template file with ftl file extension (e.g.: index.ftl).
+  
+====Markup Language====
+XHTML is chosen as markup language due to the following reasons:
+  * Minimal processing; The markups stored in the Form Template file will be the same content delivers to web browser.
+  * Custom attributes support; additional custom attributes such as dataType, constraints will be created to store domain class's elements.
+  * XHTML is familiar to most power user and allow them to edit the template source directly.
+  * Code editor support; WYMeditor: web-based XHTML editor at http://www.wymeditor.org/
+  * Validation support; Unicorn at http://code.w3.org/unicorn and Grails Markup Sanitizer at http://www.grails.org/plugin/sanitizer. These validation tools may not be usable as FreeMarker template may be not a validate XHTML document (I not sure, anyone?).
+  
+====Form Template Itself====
+The Form Template itself is the most important component of the plugin as it shared by all plugin components.
+Below is initial draft for Form Template sample (authorForm.ftl), it is expect to be updated and expanded:
+{{{
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Author Form</title>
+</head>
+<body>
+<form action="/${contextName}/ddc/save" method="post">
+<div class="dialog">
+<table>
+	<tbody>
+		<tr class="prop">
+			<td valign="top" class="name"><label for="name">Name</label></td>
+			<td valign="top" class="value "><input type="text" name="name"
+				maxlength="80" value="${authorInstance.name}" id="name" dataType="String" constraints="blank:false, size:5..80"/></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<div class="buttons"><span class="button"><input
+	type="submit" name="create" class="save" value="Create" id="create" /></span>
+</div>
+<input type="hidden" name="fid" value="${formId}" id="fid" />
+</form>
+</body>
+</html>
+}}}  
+The sample above using Strict DOCTYPE, Transitional DOCTYPE may be used and more appropriate for FreeMarker template. 
+The proposed solution to represent domain class elements is using custom attributes such as `dataType="String" constraints="blank:false, size:5..80"` and custom tag for `hasMany` mapping.
+
+====Form Domain Class====
+Below is initial design of the Form Domain Class, it is expect to be updated and expanded:
+{{{
+package org.grails.formbuilder
+
+class Form {
+	String name
+	String description
+	String templateFile
+	String domainClassCode
+	String domainClassFullName
+	Integer numberOfColumnInList
+	Integer numberOfRowPerPage
+	
+	static constraints = {
+		name (blank: false, unique: true)
+		description (blank: false)
+		templateFile (blank: false)
+		domainClassCode (blank: false)
+		domainClassFullName (blank: false)
+		numberOfColumnInList (blank: false) 
+		numberOfRowPerPage (blank: false)
+	}
+}
+}}}
+
+A Form instance based on the Form Template sample can have the following value:
+|*Property*|*Value*|
+|name|Author Form|
+|description|This is Author Form for Library System|
+|templateFile|authorForm.ftl|
+|domainClassCode|
+`package authorForm
+
+class Author {
+   String name
+
+   static constraints = { 
+        name(blank:false, size:5..80) 
+   } 
+}`|
+|domainClassFullName|authorForm.Author|
+|numberOfColumnInList|5|
+|numberOfRowPerPage|10|
+
+Value of `domainClassCode` property is generated based on Form Template. 
+
+Initial release of the plugin is targeted to support domain classes below: 
+{{{
+package com.foo.testapp
+
+class Book {
+   String title
+
+   static constraints = { 
+        title(blank:false, size:5..100) 
+   } 
+}
+
+package com.foo.testapp
+
+class Author {
+   String name
+   static hasMany = [books: Book]
+
+   static constraints = { 
+        name(blank:false, size:5..80) 
+   } 
+}
+}}} 
+
+==Form Viewer==
+Form Viewer display the form to Form User to perform data entry operations.
+ 
+===Viewer UI===
+Viewer UI will be rendered XHTML and JQuery UI components to the web browser.
+
+===Views===
+The body of the views will be rendered by FreeMarker Template Engine for given FreeMarker Form Template file. 
+The template file will be similar to http://code.google.com/p/grails-dynamic-domain-class-plugin/source/browse/#svn/trunk/grails-app/views/ddc. The different is it render HTML tag directly instead of GSP tag.  
+
+===Dynamic Controller===
+The Dynamic Controller is works dynamically based on the loaded Dynamic Controller Classes. The code of DdcController at http://code.google.com/p/grails-dynamic-domain-class-plugin/source/browse/trunk/grails-app/controllers/org/grails/dynamicdomain/DdcController.groovy can be reused except that it need to retrieve the `domainClassFullName` by using form Id instead of `params.dc`.
+
+===Dynamic Domain Class===
+When the application startup, it will load and instantiate all Dynamic Domain Classes from  `Form.domainClassCode` property. This feature enabled by Dynamic Domain Class plugin at http://code.google.com/p/grails-dynamic-domain-class-plugin/
+
+= Final Note =
+Your feedback to the Grails Form Builder Plugin Architecture is very important to us and very much appreciated. Please join the discussion topic at http://groups.google.com/group/grails-form-builder-plugin/browse_thread/thread/219d0191979544d1 and tell us what is in your mind.
+
+= Refernces =
+==FreeMarker==
+FreeMarker Home Page
+  * http://freemarker.sourceforge.net/
+  
+==XHTML==
+Transitional vs. Strict Markup
+  * http://24ways.org/2005/transitional-vs-strict-markup
+
+XHTML custom attributes support
+  * http://www.alistapart.com/articles/scripttriggers/
+  * http://www.alistapart.com/articles/customdtd/
+  * http://www.bennadel.com/blog/1453-Using-jQuery-With-Custom-XHTML-Attributes-And-Namespaces-To-Store-Data.htm
+
+==JQuery UI==
+JQuery UI Home Page
+  * http://jqueryui.com/  
