@@ -56,10 +56,10 @@ Below is initial draft for Form Template sample (authorForm.ftl), it is expect t
 	</tbody>
 </table>
 </div>
-<div class="buttons"><span class="button"><input
-	type="submit" name="create" class="save" value="Create" id="create" /></span>
+<div class="buttons">
+   <input type="hidden" name="fid" value="${formId}" id="fid" />
+   <span class="button"><input type="submit" name="create" class="save" value="Create" id="create" /></span>
 </div>
-<input type="hidden" name="fid" value="${formId}" id="fid" />
 </form>
 </body>
 </html>
