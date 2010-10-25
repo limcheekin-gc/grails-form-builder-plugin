@@ -28,7 +28,7 @@ XHTML is chosen as markup language due to the following reasons:
   * Minimal processing; The markups stored in the Form Template file will be the same content delivers to web browser.
   * Custom attributes support; additional custom attributes such as dataType, constraints will be created to store domain class's elements.
   * XHTML is familiar to most power user and allow them to edit the template source directly.
-  * Code editor support; CodeMirror at http://codemirror.net/ seems like more appropriate than WYMeditor: web-based XHTML editor at http://www.wymeditor.org/. Also, A CodeMirror plugin was just released at http://codemirror.net/.
+  * Code editor support; `CodeMirror` at http://codemirror.net/ seems like more appropriate than WYMeditor: web-based XHTML editor at http://www.wymeditor.org/. Also, A `CodeMirror` plugin was just released at http://grails.org/plugin/zk-codemirror.
   * Validation support; Unicorn at http://code.w3.org/unicorn and Grails Markup Sanitizer at http://www.grails.org/plugin/sanitizer. These validation tools may not be usable for the plugin as `FreeMarker` template may be not a validate XHTML document (I not sure, anyone?).
   
 ====Form Template Itself====
