@@ -135,6 +135,8 @@ Form Viewer display the form to Form User to perform data entry operations.
  
 ===Viewer UI===
 Viewer UI will be rendered XHTML and JQuery UI widgets to the web browser.
+====Client Side Validation====
+Using the sub-project of this project, JQuery Validation UI Plugin at http://code.google.com/p/jquery-validation-ui-plugin/ (To be released in these few days).
 
 === Dynamic Views===
 The body of the views will be rendered by `FreeMarker` Template Engine for given `FreeMarker` Form Template file. 
