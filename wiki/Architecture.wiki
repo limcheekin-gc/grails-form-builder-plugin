@@ -134,9 +134,10 @@ class Author {
 Form Viewer display the form to Form User to perform data entry operations.
  
 ===Viewer UI===
-Viewer UI will be rendered XHTML and JQuery UI widgets to the web browser.
+Viewer UI will be rendered Form Template and JQuery UI widgets to the web browser. It will make use of [http://www.grails.org/plugin/freemarker-tags freemarker-tags] plugin to do the rendering.
+
 ====Client Side Validation====
-Using the sub-project of this project, JQuery Validation UI Plugin at http://code.google.com/p/jquery-validation-ui-plugin/ (To be released in these few days).
+Using the sub-project of this project, JQuery Validation UI Plugin at http://code.google.com/p/jquery-validation-ui-plugin/.
 
 === Dynamic Views===
 The body of the views will be rendered by `FreeMarker` Template Engine for given `FreeMarker` Form Template file. 
