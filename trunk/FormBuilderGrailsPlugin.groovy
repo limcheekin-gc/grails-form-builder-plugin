@@ -23,9 +23,11 @@ class FormBuilderGrailsPlugin {
     // the plugin version
     def version = "0.1"
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "1.3.5 > *"
+    def grailsVersion = "1.3.6 > *"
     // the other plugins this plugin depends on
-    def dependsOn = [:]
+    def dependsOn = [jqueryValidationUi:'1.0.1', 
+								     jqueryUi:'1.8.6']
+	
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
             "grails-app/views/error.gsp"
@@ -33,7 +35,7 @@ class FormBuilderGrailsPlugin {
 
     def author = "Lim Chee Kin"
     def authorEmail = "limcheekin@vobject.com"
-    def title = "Grails Form Builder Plugin - Create Grails Form-based Application without Coding"
+    def title = "Grails Form Builder Plugin - Create Online Forms without Coding"
     def description = '''\
  The Grails Form Builder Plugin supports user to create online forms in web browser 
  without any programming knowledge.

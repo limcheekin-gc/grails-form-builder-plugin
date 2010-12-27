@@ -7,12 +7,12 @@
 	});
 	
 	Admin.formbuilder = {
-		BASEURL: 'formbuilder.php',
-		PREVIEWURL: 'preview.php',
+		BASEURL: 'getComponent',
+		PREVIEWURL: 'preview.gsp',
 		init: function()
 		{
 			Admin.formbuilder.layout('body');
-			Admin.formbuilder.tinymce();
+			// Admin.formbuilder.tinymce();
 		},
 		layout: function(e)
 		{
@@ -39,19 +39,17 @@
 					var type = $(this).attr('id');
 					var e = this;
 					$(this).addClass('loading');
-					$.get(Admin.formbuilder.BASEURL+'?action=element&type='+type,function(result){
-						$(e).removeClass('loading');
-						$(into).prepend(result);
-						var $newrow = $(into).find('li:first');
-						//style
-						Admin.formbuilder.editors();
-						Admin.formbuilder.properties($newrow);
-						Admin.formbuilder.layout($newrow);
+					var result = renderElement(type);
+					$(e).removeClass('loading');
+					$(into).append(result);
+					var $newrow = $(into).find('li:last');
+					//style
+					Admin.formbuilder.editors();
+					Admin.formbuilder.properties($newrow);
+					Admin.formbuilder.layout($newrow);
 						//show
-						$newrow.hide().slideDown('slow');
-						$(into).sortable("refresh");
-						delete result;
-					});
+					$newrow.hide().slideDown('slow');
+					$(into).sortable("refresh");
 			});
 			
 			$active_layout.find("#form_builder_panel ol").sortable({
@@ -151,25 +149,20 @@
 			$(e).find('a.properties').click(function(){
 				$('#form_builder_properties').html('<span class="icon loading">Loading...</span>');
 				var id = $(this).parents('label:first').attr('for');
-				var title = $(this).attr('rel');
-				
+				var type = $(this).attr('rel');
 				$('#form_builder_panel li.on').removeClass('on');
 				$(this).parents('li:first').addClass('on');
-				
-				$.get(Admin.formbuilder.BASEURL+'?action=properties&type='+title+'&id='+id,function(result){
-					$('#form_builder_properties').html(result);
-					Admin.formbuilder.attr.get(id);
-					Admin.formbuilder.layout('#form_builder_properties');
-					$('#form_builder_properties li *:input').keyup(function(){
-						Admin.formbuilder.attr.update(this);
-					});
-					
-					delete result;
+				var result = renderProperties(type, id); 
+				$('#form_builder_properties').html(result);
+        Admin.formbuilder.attr.get(id);
+				Admin.formbuilder.layout('#form_builder_properties');
+				$('#form_builder_properties li *:input').keyup(function(){
+					Admin.formbuilder.attr.update(this);
 				});
-				
+									
 				return false;
 			});
-		},
+		}, 
 		attr: {
 			get: function(id)
 			{
@@ -327,4 +320,167 @@
 			randomstring += chars.substring(rnum,rnum+1);
 		}
 		return randomstring;
+	}
+
+	/*
+	Element is generated and spat onscreen
+	*/	
+	function renderElement(type)
+	{
+		var numOfElements = $("#form_builder_panel ol li").size();
+		var id = type + '_' + numOfElements;
+		var element = null;
+		switch(type)
+		{
+			case 'text': 				
+				element = '<textarea class="wysiwyg" id="' + id + '" name="' + id + '" rows="5" cols="50"></textarea>';
+				break;
+			case 'textarea':
+				element = '<textarea id="' + id + '" name="' + id + '" rows="5" cols="50"></textarea>'; 
+				break;
+			case 'textbox': 
+				element = '<input type="text" id="' + id + '" name="' + id + '" />'; 
+				break;
+			case 'dropdown': 
+				element = '<select id="' + id + '" name="' + id + '"><option value="null">No Option</option></select>'; 
+				break;
+			case 'checkbox': 
+				element = '<span class="values ' + id + '"><input type="checkbox" /></span>'; break;
+			case 'radio': 
+				element = '<span class="values ' + id + '"><input type="radio" /></span>'; 
+				break;
+			case 'datetime':
+				element = '<input type="text" id="' + id + '" name="' + id + '" class="datepicker" />';  
+				break;
+			case 'fileupload': 
+				element = '<input type="file" id="' + id + '" name="' + id + '" />';  
+				break;
+			case 'button': 
+				element = '<input type="button" id="' + id + '" name="' + id + '" value="Submit" />';   
+			  break;
+		}
+		
+		//give the text box a different label
+		var label = (type == 'text') ? 'Static Text' : 'No Label';
+		
+		//basic output list element.
+		var output = '<li> \
+			<label for="' + id + '"><a href="#" rel="' + type + '" class="properties tooltip" title="Edit">' + label + '</a></label> \
+				<div class="block"> \
+					<div class="handle"><span class="icon move">Move</span></div> \
+					' + element + ' \
+					<span class="note ' + id + '"></span> \
+				</div> \
+				<div class="clear"></div> \
+				<div class="attrs clear ' + id + '"> \
+					<input type="hidden" name="properties[' + id + '][type]" value="' + type + '" /> \
+				</div> \
+			</li>';
+	
+		
+		if (element != null) {
+			return output;
+		}
+	}
+	
+	/*
+	Builds a list of properties for the builder to display.
+	*/
+	function renderProperties(componentType, id)
+	{
+		var output = null;
+		
+		//basic options
+		var label = new Object();
+		label.name = 'Label';
+		label.component = '<input type="text" name="label" rel="label[for=' + id + '] a"/>'; 
+		var isRequired = new Object();
+		isRequired.name = 'Yes';
+		isRequired.component = '<input type="checkbox" name="required" checked />';
+		var type = new Object();
+		type.name = 'Type';
+		type.component = '<select name="required_vars"> \
+			<option value="">Text</option> \
+			<option value="email">Email</option> \
+			<option value="number">Number</option> \
+		</select>';
+		var required = new Object();
+		required.name = 'Required';
+		required.component = new Array(isRequired, type);
+		var description = new Object();
+		description.name = 'Description';
+		description.component = '<input type="text" name="description" rel=".note[class~=' + id + ']"/>'; 
+		var options = new Array(label, required, description);
+		
+		var seperate_help = '<span class="icon tooltip" title="Seperate multiple values with a semicolon;<br/>Eg: test;something;here">Help</span>';
+		
+		//specific options
+		switch(componentType)
+		{
+			case 'dropdown':
+				options.push(propertyOption(type, 'select[name=' + id + ']', seperate_help)); 
+				break;
+			case 'radio':
+				options.push(propertyOption(type, 'span.values[class~=' + id + ']', seperate_help)); 
+				break;
+			case 'checkbox':
+				options.push(propertyOption(type, 'span.values[class~=' + id + ']', seperate_help)); 
+				break;
+			case 'button':
+				var option = new Object();
+				option.name = 'Value';
+				option.component = '<input type="text" name="value" class="' + type + '" rel="input[name=' + id + ']" />'; 				
+				options.push(option);
+				unset(options, 'Required'); //useless			
+				break;
+			case 'text':
+				unset(options, 'Label'); //useless
+				unset(options, 'Description'); //useless
+				break;
+			default: break;
+		}
+		
+		//throw a delete on the bottom for good measure!
+		// $options['Delete'] = form_input(array('rel'=>$id,'name'=>'remove','value'=>'Delete Element','type'=>'button','onclick'=>'Admin.formbuilder.remove(this);'));
+		
+		var output = '';
+		var option = null;
+		var subOption = null;
+		var i, j;
+		//spit out the options
+		for (i in options) {
+			option = options[i];
+			output += '<li class="' + id + '"> \
+			           <b>' + option.name + '</b>: \
+			           <ul>';
+					if ($.isArray(option.component)) {
+						for (j in option.component) {
+							subOption = option.component[j];
+							output += '<li class="sub"><b>' + subOption.name + '</b>: ' + subOption.component + '</li>'; 
+						}
+					} else {
+						output += '<li class="sub">' + option.component + '</li>';
+					}
+			output += '</ul>';
+			output += '</li>';
+		}
+		
+		return output;
+	}
+	
+	function unset(options, optionName) {
+		var i;
+		for (i in options) {
+		  if (options[i].name == optionName) {
+			  options.splice(i, 1);
+			  return;
+		    } 	
+		}
+	}
+	
+	function propertyOption(type, rel, element) {
+		var option = new Object();
+		option.name = 'Options';
+		option.component = '<input type="text" name="values" class="' + type + '" rel="' + rel + '" />' + element; 
+		return option; 	
 	}
