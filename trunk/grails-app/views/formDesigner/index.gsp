@@ -13,7 +13,7 @@
 		<script src="${resource(dir:'js',file:'jquery.tooltip.js')}" type="text/javascript" charset="utf-8"></script>
 		<script src="${resource(dir:'js',file:'jquery.metadata.js')}" type="text/javascript" charset="utf-8"></script>
 		<!-- FB fase -->
-		<script src="${resource(dir:'js',file:'admin.formbuilder.js')}" type="text/javascript" charset="utf-8"></script>
+		<script src="${resource(dir:'js',file:'jquery.formDesigner.js')}" type="text/javascript" charset="utf-8"></script>
 		<script src="${resource(dir:'js',file:'tiny_mce/tiny_mce.js')}" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
