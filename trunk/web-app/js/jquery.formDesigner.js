@@ -28,8 +28,7 @@
 	});
 	
 	formDesigner = {
-		BASEURL: 'getComponent',
-		PREVIEWURL: 'preview.gsp',
+		PREVIEWURL: '/form-builder/formDesigner/preview',
 		init: function()
 		{
 			formDesigner.layout('body');
@@ -168,9 +167,10 @@
 					element = '<select id="' + id + '" name="' + id + '"><option value="null">No Option</option></select>'; 
 					break;
 				case 'checkbox': 
-					element = '<span class="values ' + id + '"><input type="checkbox" /></span>'; break;
+					element = '<span class="values ' + id + '"><input name="' + id + '" type="checkbox" /></span>'; 
+					break;
 				case 'radio': 
-					element = '<span class="values ' + id + '"><input type="radio" /></span>'; 
+					element = '<span class="values ' + id + '"><input name="' + id + '" type="radio" /></span>'; 
 					break;
 				case 'datetime':
 					element = '<input type="text" id="' + id + '" name="' + id + '" class="datepicker" />';  
@@ -184,7 +184,7 @@
 			}
 			
 			//give the text box a different label
-			var label = (type == 'text') ? 'Static Text' : 'No Label';
+			var label = (type != 'button') ? 'Static Text' : 'No Label';
 			
 			//basic output list element.
 			var output = '<li> \
@@ -422,6 +422,7 @@
 		},
 		preview: function()
 		{
+			
 			$('textarea.wysiwyg').each(function(){
 				var name = $(this).attr('name');
 				if (name) {
@@ -431,8 +432,8 @@
 			});
 			
 			var data = $('#form_builder_panel form').serialize();
-			
-			$.post(formDesigner.PREVIEWURL,data,function(result){
+			// alert (data);
+			$.post(formDesigner.PREVIEWURL, data, function(result){
 				$('#form_builder_preview').html(result);
 				formDesigner.dialog('form_builder_preview');
 			});

@@ -15,6 +15,8 @@
 
 package org.grails.formbuilder
 
+import org.codehaus.groovy.grails.plugins.freemarker.FreeMarkerTemplate
+
 /**
  *
  * @author <a href='mailto:limcheekin@vobject.com'>Lim Chee Kin</a>
@@ -24,19 +26,19 @@ package org.grails.formbuilder
 class Form {
 	String name
 	String description
-	String templateFile
+	String templateSource
 	String domainClassCode
 	String domainClassFullName
 	Integer numberOfColumnInList
 	Integer numberOfRowPerPage
 	
 	static constraints = {
-		name (blank: false, unique: true)
-		description (blank: false)
-		templateFile (blank: false)
-		domainClassCode (blank: false)
-		domainClassFullName (blank: false)
-		numberOfColumnInList (blank: false) 
-		numberOfRowPerPage (blank: false)
+		name blank: false, unique: true
+		description blank: false
+		templateSource blank: false
+		domainClassCode blank: true
+		domainClassFullName blank: true
+		numberOfColumnInList blank: true 
+		numberOfRowPerPage blank: true
 	}
 }
