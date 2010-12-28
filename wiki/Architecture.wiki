@@ -150,7 +150,7 @@ The Dynamic Controller is works dynamically based on the loaded Dynamic Domain C
 When the application startup, it will load and instantiate all Dynamic Domain Classes from  `Form.domainClassCode` property. This feature enabled by Dynamic Domain Class plugin at http://code.google.com/p/grails-dynamic-domain-class-plugin/
 
 = Internationalization Support =
-Store the message bundle to database by using [http://grails.org/plugin/localizations localizations] plugin.
+Store the message bundles to database by using [http://grails.org/plugin/localizations localizations] plugin.
 
 = Final Note =
 Your feedback to the Grails Form Builder Plugin Architecture is very important to us and very much appreciated. Please join the discussion topic at http://groups.google.com/group/grails-form-builder-plugin/browse_thread/thread/219d0191979544d1 and tell us what is in your mind.
