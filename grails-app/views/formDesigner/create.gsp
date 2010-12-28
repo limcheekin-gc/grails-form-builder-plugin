@@ -24,26 +24,12 @@
 		</div>
 		
 		<div id="form_builder_nav">
-			
-			<ul id="form_builder_toolbox">
-				<li id='text' class='toolbox'>Rich Text Area</li>
-				<li id='textarea' class='toolbox'>Text Area</li>
-				<li id='textbox' class='toolbox'>Text Box</li>
-				<li id='dropdown' class='toolbox'>Drop Down</li>
-				<li id='checkbox' class='toolbox'>Check Box</li>
-				<li id='radio' class='toolbox'>Radio Button</li>
-				<li id='datetime' class='toolbox'>Date Picker</li>
-				<li id='fileupload' class='toolbox'>File Upload</li>
-				<li id='button' class='toolbox'>Button</li>
-			</ul>
-			<ul id="form_builder_properties">
-				<li>Select an element to display it's properties</li>
-			</ul>
-			
+			<g:render template="toolbox" />
+			<g:render template="properties" />
 		</div>
 		
 		<div id="form_builder_panel">
-			<form method="post" action="preview.gsp" class="fancy">
+			<form method="post" action="save" class="fancy">
 				<fieldset class='sml'>
 					<legend>Built Form</legend>
 					<ol>
@@ -51,7 +37,7 @@
 					</ol>
 				</fieldset>
 				<input type="submit" value="Submit"/>
-				<input type="button" name="preview" value="Preview" onclick="Admin.formbuilder.preview();"/>
+				<input type="button" name="preview" value="Preview" onclick="formDesigner.preview();"/>
 			</form>
 		</div>
 		
