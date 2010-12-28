@@ -22,6 +22,7 @@ JQuery Form Builder chosen to be Designer UI. It will based on the works at http
   * Better performance compared with GSP as mentioned in http://grails.1312388.n4.nabble.com/Freemarker-In-A-Grails-App-td1378733.html
   * There is `FreeMarker` Grails Plugin available at http://www.grails.org/plugin/freeMarker.
 The Form Template will be stored in `FreeMarker` template file with ftl file extension (e.g.: index.ftl).
+*Note : * As `groovyPagesTemplateEngine` is able to render String template, include FreeMarker to the plugin may proof that it is unnecessary and increase complexity. Please find out more at http://mrhaki.blogspot.com/2010/05/grails-goodness-use-gsp-template-engine.html. We will stick to pure GSP template first 
   
 ====Markup Language====
 XHTML is chosen as markup language due to the following reasons:
