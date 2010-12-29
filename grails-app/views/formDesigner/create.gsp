@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="${resource(dir:'css',file:'site.forms.css')}" type="text/css" media="screen" charset="utf-8"/>
 		
 		<g:javascript library="jquery" plugin="jquery" />
-		<jqui:resources theme="smoothness" />
+		<jqui:resources theme="smoothness" />  
 		<!-- helpers -->
 		<script src="${resource(dir:'js',file:'jquery.tooltip.js')}" type="text/javascript" charset="utf-8"></script>
 		<script src="${resource(dir:'js',file:'jquery.metadata.js')}" type="text/javascript" charset="utf-8"></script>
