@@ -440,6 +440,8 @@
 		},
 		dialog: function(rel,link)
 		{
+			
+			// alert ('rel = ' + rel + ', link = ' + link);
 			var external = $("#"+rel).hasClass('external');
 			if (external) {
 				

@@ -15,8 +15,6 @@
 
 package org.grails.formbuilder
 
-import org.codehaus.groovy.grails.plugins.freemarker.FreeMarkerTemplate
-
 /**
  *
  * @author <a href='mailto:limcheekin@vobject.com'>Lim Chee Kin</a>

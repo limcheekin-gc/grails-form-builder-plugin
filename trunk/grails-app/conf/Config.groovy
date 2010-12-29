@@ -102,3 +102,4 @@ jqueryValidationUi {
 	]
 }
 
+uniForm.validation = false
