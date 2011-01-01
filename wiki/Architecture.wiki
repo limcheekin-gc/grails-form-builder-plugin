@@ -12,7 +12,7 @@ The Grails Form Builder Plugin consists of the following two main components:
 It is GUI to allow Form Editor to create the form and the form defined is represents in Form Template.
 
 ===Designer UI==
-JQuery Form Builder chosen to be Designer UI. It will based on the works at http://blog.sonuku.com/2009/04/11/php-formbuilder/.
+[JQuery Form Builder Plugin http://code.google.com/p/jquery-form-builder-plugin] chosen to be Designer UI. The plugin is a sister project of this project started on 1 Jan 2011. [JQuery Form Builder http://blog.sonuku.com/2009/04/11/php-formbuilder/] from Sonuku no longer as initial code base of Designer UI component. Please see the [http://limcheekin.blogspot.com/2011/01/kick-off-jquery-form-builder-plugin.html blog post] to find out more.
 
 ===Form Template===
 ====Template Engine====
