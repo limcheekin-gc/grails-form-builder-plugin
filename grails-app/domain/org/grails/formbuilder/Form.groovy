@@ -33,10 +33,12 @@ class Form {
 	static constraints = {
 		name blank: false, unique: true
 		description blank: false
-		templateSource blank: false
-		domainClassCode blank: true
-		domainClassFullName blank: true
-		numberOfColumnInList blank: true 
-		numberOfRowPerPage blank: true
+		templateSource nullable:true, blank: true
+		domainClassCode nullable:true, blank: true
+		domainClassFullName nullable:true, blank: true
+		numberOfColumnInList nullable:true, blank: true 
+		numberOfRowPerPage nullable:true, blank: true
 	}
+	
+	static hasMany = [fields: Field]
 }
