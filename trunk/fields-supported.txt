@@ -1,0 +1,40 @@
+Implementation Strategy: Vertical Complete
+
+Standard Fields
+
+    * Single Line Text (0.1)
+    * Number (Digit & Decimal) (0.1)
+    * Email Address (0.1)
+    * Web Address (URL) (0.1)
+    * Phone (International and US) (0.1)
+    * Plain Text (0.1)
+    * Multi Line Text (Textarea)
+    * Multiple Choice (Radio, Dropdown)
+    * Checkboxes (List)
+    * File Upload (Single, Multiple)
+    * Name
+    * Date (Includes Date Picker) 
+    * Time
+    * Rich Text (Html Text)
+    * Mailing Address
+	
+Fancy Pants Fields
+
+    * Name
+    * Date (Includes Date Picker)
+    * Time
+    * Phone (US and International)
+    * Mailing Address (Map Integration)
+    * Web Site Address
+    * Email Address
+    * Currency (Dollars, Euros, Pounds Sterling, Yen)
+    * Likert Items and Scales NEW!
+
+	
+You Can Also Insert
+
+    
+    * Standard HTML
+    * Images
+    * Videos
+    * Embeddable Google Maps

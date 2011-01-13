@@ -10,6 +10,8 @@ class FormDesignerController {
 	  
     def create = { }
 	
+	  def index = { }
+	
 	  def preview = { 
 		    def elements = params.findAll {!it.key.startsWith('properties') &&
 			  it.key != 'controller' && it.key != 'action'}

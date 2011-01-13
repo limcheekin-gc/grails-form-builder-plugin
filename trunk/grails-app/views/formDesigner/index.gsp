@@ -6,29 +6,7 @@
 	<g:javascript library="jquery" plugin="jquery" />
 	<jqui:resources theme="smoothness" />   
   <style type="text/css">
-    /* REF: http://www.thesitewizard.com/css/design-2-column-layout.shtml */
-		#toolbox {
-		  float: left;
-		  width: 20%;
-      border: 1px grey;  
-      border-right-style:solid;
-		}  
-		  
-		#form {
-		  margin-left:  20%;	  
-		}
-		
-		#footer {
-			clear: both;
-		}
-		
-		#header {
-			text-align: center;
-		}
-		
-		.floatingPanel {
 
-		}		
 		
   </style>
   <script type="text/javascript">
@@ -48,18 +26,7 @@ formDesigner = {
 		           }
 	          }
 	     
-			  // REF: http://www.webresourcesdepot.com/smart-floating-banners/
-			  $(window).scroll(function(){
-				 if ($(window).scrollTop() > $(".floatingPanelIdentifier").position({ scroll: false }).top){
-				  $(".floatingPanel").css("position", "fixed");
-				  $(".floatingPanel").css("top", "0");
-				  }
 
-			   if ($(window).scrollTop() <= $(".floatingPanelIdentifier").position({ scroll: false }).top){
-			     $(".floatingPanel").css("position", "relative");
-			     $(".floatingPanel").css("top", $(".floatingPanelIdentifier").position);
-			      }
-			      });
 		}
 };
   </script>
