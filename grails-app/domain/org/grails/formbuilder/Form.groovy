@@ -15,6 +15,8 @@
 
 package org.grails.formbuilder
 
+import java.util.Date;
+
 /**
  *
  * @author <a href='mailto:limcheekin@vobject.com'>Lim Chee Kin</a>
@@ -29,6 +31,8 @@ class Form {
 	String domainClassFullName
 	Integer numberOfColumnInList
 	Integer numberOfRowPerPage
+	Date dateCreated
+	Date lastUpdated
 	
 	static constraints = {
 		name blank: false, unique: true
@@ -38,6 +42,8 @@ class Form {
 		domainClassFullName nullable:true, blank: true
 		numberOfColumnInList nullable:true, blank: true 
 		numberOfRowPerPage nullable:true, blank: true
+		dateCreated blank:false
+		lastUpdated nullable:true
 	}
 	
 	static hasMany = [fields: Field]
