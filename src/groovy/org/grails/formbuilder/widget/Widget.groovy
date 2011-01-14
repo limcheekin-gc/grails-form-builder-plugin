@@ -51,7 +51,7 @@ abstract class Widget {
 					  [@g.hiddenField name="fields[$index].id" value="${field.id}" /]
 					  [@g.hiddenField name="fields[$index].name" value="${field.name}" /]
 					  [@g.hiddenField name="fields[$index].type" value="${field.type}" /]
-					  [@g.hiddenField name="fields[$index].settings" value="${field.settings}" /]
+					  [@g.hiddenField name="fields[$index].settings" value="${field.settings.encodeAsJavaScript()}" /]
 					  [@g.hiddenField name="fields[$index].sequence" value="${field.sequence}" /]
 					  [@g.hiddenField name="fields[$index].status" /]
 				 </div>
