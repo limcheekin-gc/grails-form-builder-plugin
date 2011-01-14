@@ -25,8 +25,10 @@ class FormBuilderGrailsPlugin {
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3.6 > *"
     // the other plugins this plugin depends on
-    def dependsOn = [jqueryValidationUi:'1.0.1', 
-								     jqueryUi:'1.8.6', 
+    def dependsOn = [jqueryValidationUi:'1.1.1 > *', 
+								     jqueryUi:'1.8.6 > *', 
+									   jqueryJson:'2.2 > *',
+									   freemarkerTags:'0.5.5 > *',
 									   uniForm:'1.5 > *']
 	
     // resources that are excluded from plugin packaging

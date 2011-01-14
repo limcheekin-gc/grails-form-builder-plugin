@@ -1,7 +1,11 @@
 package org.grails.formbuilder
 
-class FormController {
+import org.codehaus.groovy.grails.web.pages.FastStringWriter
+import freemarker.template.Template
 
+class FormController {
+	  def freemarkerConfig
+	  def formTemplateService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -16,17 +20,30 @@ class FormController {
     def create = {
         def formInstance = new Form()
         formInstance.properties = params
-        return [formInstance: formInstance]
-    }
-
+		    renderView("create", formInstance, 
+				           formTemplateService.getCreateViewTemplate(request, formInstance))
+      }
+	
+	 private renderView(name, formInstance, templateText) {
+		 println "$name:\n$templateText"
+		 FastStringWriter out = new FastStringWriter()
+		 new Template(name,
+			 new StringReader(templateText),
+			  freemarkerConfig.configuration)
+				.process([formInstance: formInstance, flash:flash], out)
+			   render out.toString()
+	   }
+	 
     def save = {
         def formInstance = new Form(params)
+		    formInstance.fields = formInstance.fields.findAll { it.status != FieldStatus.D }
         if (formInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'form.label', default: 'Form'), formInstance.id])}"
             redirect(action: "show", id: formInstance.id)
         }
         else {
-            render(view: "create", model: [formInstance: formInstance])
+		    renderView("create", formInstance, 
+				           formTemplateService.getCreateViewTemplate(request, formInstance))
         }
     }
 

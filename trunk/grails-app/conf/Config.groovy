@@ -103,3 +103,4 @@ jqueryValidationUi {
 }
 
 uniForm.validation = false
+jqueryFormBuilder.minified = false
