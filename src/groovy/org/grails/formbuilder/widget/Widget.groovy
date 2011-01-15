@@ -32,7 +32,6 @@ abstract class Widget {
 		Object fieldSettings = JSON.parse(field.settings)
 		out << '<div class="ctrlHolder ' 
 		out << getDivClasses(fieldSettings, locale)
-		out << forBuilder?" ${field.type}":EMPTY_STRING
 		out << '" rel="'
 		out << index
 		out << '">'
@@ -44,7 +43,7 @@ abstract class Widget {
 			templateText = getWidgetTemplateText(field.name, fieldSettings, locale, forBuilder)
 		}
 		out << templateText
-		if (forBuilder) {
+		if (forBuilder && !readOnly) {
 			out << """\
 				 <a class="ui-corner-all closeButton" href="#"><span class="ui-icon ui-icon-close">delete this widget</span></a>
 				 <div class="fieldProperties">

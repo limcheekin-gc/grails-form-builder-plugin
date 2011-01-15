@@ -31,7 +31,7 @@ class PlainText extends Widget {
 	                            Locale locale, Boolean forBuilder) {
 		String text = fieldSettings."${locale.language}".text
 		String styleClass = fieldSettings."${locale.language}".classes[0]
-		return """<div class="plainText ${styleClass}">${text}</div>"""
+		return """<div class="PlainText ${styleClass}">${text}</div>"""
    }
 								
  String getWidgetReadOnlyTemplateText(String fieldName, Object fieldSettings,
