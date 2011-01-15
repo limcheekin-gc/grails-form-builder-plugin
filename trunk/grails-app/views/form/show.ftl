@@ -1,35 +1,35 @@
-
-<%@ page import="org.grails.formbuilder.Form" %>
+[#ftl/]
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'form.label', default: 'Form')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
+         [#assign entityName=g._message({'code': 'form.label', 'default': 'Form'}) /]
+        <title>[@g.message code="default.show.label" args=[entityName] /]</title>
         <script type="text/javascript">
         $(function() {
         	 $('#container').formbuilder({tabSelected: 1});
-        	 $('div.buttons').children().button();
+        	 $("input").attr("disabled", true);
+        	 $("select").attr("disabled", true);
         	    });
         </script>    
     </head>
     <body>
         <content tag="nav">
-           <div class="title"><h1><g:message code="default.show.label" args="[entityName]" /></h1></div>
-           <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-           <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-           <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>        </content>    
+           <div class="title"><h1>[@g.message code="default.show.label" args=[entityName] /]</h1></div>
+           <span class="menuButton"><a class="home" href="${g._createLink({'uri': '/'})}">${g._message({'code':'default.home.label'})}</a></span>
+           <span class="menuButton">[@g.link class="list" action="list"][@g.message code="default.list.label" args=[entityName] /][/@g.link]</span>  
+           <span class="menuButton">[@g.link class="create" action="create"][@g.message code="default.new.label" args=[entityName] /][/@g.link]</span>  
         </content>
 				<div id="container">
 				  <div id="header">
-	           <g:if test="${flash.message}">
-	           <div class="message">${flash.message}</div>
-	           </g:if>
-	           <g:hasErrors bean="${formInstance}">
-	           <div class="errors">
-	               <g:renderErrors bean="${formInstance}" as="list" />
-	           </div>
-	           </g:hasErrors>					  
+		        [#if flash.message?exists]
+		        <div class="message">${flash.message}</div>
+		        [/#if]
+		        [@g.hasErrors bean=formInstance]
+		        <div class="errors">
+		            [@g.renderErrors bean=formInstance _as="list" /]
+		        </div>     
+		        [/@g.hasErrors]				  
 				  </div>
 				  <div id="builderPalette">
 				     <div class="floatingPanelIdentifier"></div>

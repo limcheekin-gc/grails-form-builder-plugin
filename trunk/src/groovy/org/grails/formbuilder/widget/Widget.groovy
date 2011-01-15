@@ -43,9 +43,11 @@ abstract class Widget {
 			templateText = getWidgetTemplateText(field.name, fieldSettings, locale, forBuilder)
 		}
 		out << templateText
-		if (forBuilder && !readOnly) {
+		if (!readOnly) {
+			out << '<a class="ui-corner-all closeButton" href="#"><span class="ui-icon ui-icon-close">delete this widget</span></a>'
+		}
+		if (forBuilder) {
 			out << """\
-				 <a class="ui-corner-all closeButton" href="#"><span class="ui-icon ui-icon-close">delete this widget</span></a>
 				 <div class="fieldProperties">
 					  [@g.hiddenField name="fields[$index].id" value="${field.id}" /]
 					  [@g.hiddenField name="fields[$index].name" value="${field.name}" /]
