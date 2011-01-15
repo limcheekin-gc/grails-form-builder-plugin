@@ -66,7 +66,8 @@ class FormController {
             redirect(action: "list")
         }
         else {
-            [formInstance: formInstance]
+		    renderView("show", formInstance, 
+				           formTemplateService.getShowViewTemplate(request, formInstance))
         }
     }
 
