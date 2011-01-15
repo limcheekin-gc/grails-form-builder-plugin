@@ -15,8 +15,8 @@
 
 package org.grails.formbuilder
 
-import java.util.Date;
-
+import org.apache.commons.collections.list.LazyList
+import org.apache.commons.collections.FactoryUtils
 /**
  *
  * @author <a href='mailto:limcheekin@vobject.com'>Lim Chee Kin</a>
@@ -46,5 +46,14 @@ class Form {
 		lastUpdated nullable:true
 	}
 	
-	static hasMany = [fields: Field]
+	List fieldsList = new ArrayList()
+	static hasMany = [ fieldsList:Field ]
+	
+	static mapping = { fieldsList cascade:"all-delete-orphan" }
+	
+	// From: http://omarello.com/2010/08/grails-one-to-many-dynamic-forms/
+	def getFields() {
+		return LazyList.decorate(fieldsList,
+		FactoryUtils.instantiateFactory(Field.class))
+	}
 }

@@ -5,8 +5,8 @@
         <g:javascript library="jquery" plugin="jquery" />
         <jqui:resources theme="smoothness" />
         <jqJson:resources />
-        <jqfb:resources />
-        <uf:resources />            
+        <uf:resources />    
+        <jqfb:resources />        
         <g:layoutHead />
         <style type="text/css">
         div.logo {

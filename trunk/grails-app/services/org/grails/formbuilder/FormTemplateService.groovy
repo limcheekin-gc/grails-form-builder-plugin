@@ -8,31 +8,32 @@ class FormTemplateService {
 	def grailsApplication
 	static transactional = false
 	static final String WIDGET_PACKAGE = "org.grails.formbuilder.widget"
-	static final String FB_CREATE_EDIT_VIEW = '''\
+	static final String LAYOUT = "formbuilder"
+	static final String FB_CREATE_EDIT_VIEW = """\
 [#ftl/]
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
+        <meta name="layout" content="${LAYOUT}" />
         [#assign  entityName=g._message({'code': 'form.label', 'default': 'Form'}) /]
         <title>[@g.message code="default.create.label" args=[entityName] /]</title>
         <script type="text/javascript">
-        $(function() {
-        	 $('#container').formbuilder();
-        	 $('div.buttons').children().button();
+        \$(function() {
+        	 \$('#container').formbuilder();
+        	 \$('div.buttons').children().button();
         	    });
         </script>            
     </head>
     <body>
         <content tag="nav">
            <div class="title"><h1>[@g.message code="default.create.label" args=[entityName] /]</h1></div>
-           <span class="menuButton"><a class="home" href="${g._createLink({'uri': '/'})}">${g._message({'code':'default.home.label'})}</a></span>
+           <span class="menuButton"><a class="home" href="\${g._createLink({'uri': '/'})}">\${g._message({'code':'default.home.label'})}</a></span>
            <span class="menuButton">[@g.link class="list" action="list"][@g.message code="default.list.label" args=[entityName] /][/@g.link]</span>      
         </content>
 				<div id="container">
 				  <div id="header">
 		        [#if flash.message?exists]
-		        <div class="message">${flash.message}</div>
+		        <div class="message">\${flash.message}</div>
 		        [/#if]
 		        [@g.hasErrors bean=formInstance]
 		        <div class="errors">
@@ -97,13 +98,13 @@ class FormTemplateService {
 						  </fieldset>
 				  </div>
 				  <div class="buttons">
-						  [@g.submitButton name="create" class="save" value="${g._message({'code': 'default.button.create.label', 'default': 'Create'})}" /]
+						  [@g.submitButton name="create" class="save" value="\${g._message({'code': 'default.button.create.label', 'default': 'Create'})}" /]
 					</div>
 					[/@g.form] 
 				</div>            
     </body>
 </html>
-'''
+"""
 	
 	String getCreateViewTemplate(def request, Form form) {
 		return FB_CREATE_EDIT_VIEW.replace('@FIELDS', 
@@ -112,10 +113,10 @@ class FormTemplateService {
 	
 	private String getWidgetsTemplateText(def request, Form form) {
 		Widget widget
-		if (form.fields?.size() > 0) {
+		if (form.fieldsList?.size() > 0) {
 			Locale locale = RCU.getLocale(request)
 			FastStringWriter out = new FastStringWriter()
-			form.fields.eachWithIndex { field, i ->
+			form.fieldsList.eachWithIndex { field, i ->
 				widget = grailsApplication.classLoader.loadClass("${WIDGET_PACKAGE}.${field.type}").newInstance()
 				out << widget.getTemplateText(field, i, locale, false, true)
 			}
