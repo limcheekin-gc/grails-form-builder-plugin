@@ -115,10 +115,9 @@ class FormTemplateService {
         <title>[@g.message code="default.show.label" args=[entityName] /]</title>
         <script type="text/javascript">
         \$(function() {
-        	 \$('#container').formbuilder({tabSelected: 1, readOnly: true});
-        	 \$("input").attr("disabled", true);
-        	 \$("select").attr("disabled", true);
-        	 \$('div.buttons').children().removeAttr('disabled').button();  	
+        	 \$('#container').formbuilder({tabDisabled: [0], tabSelected: 2, readOnly: true});
+           \$('div.buttons').children().button();
+           \$('#id').removeAttr('disabled');
         	    });
         </script>    
     </head>
@@ -145,9 +144,17 @@ class FormTemplateService {
 				     <div class="floatingPanel">
 							<div id="paletteTabs">
 								<ul>
+								  <li><a href="#addField">Add Field</a></li>
 									<li><a href="#fieldSettings">Field Settings</a></li>
 									<li><a href="#formSettings">Form Settings</a></li>
 								</ul>
+								<div id="addField">
+								  <strong>Standard Fields</strong>
+									<div id="standardFields"></div>
+									<br />
+								  <strong>Fancy Fields</strong>
+								  <div id="fancyFields"></div>
+								</div>								
 								<div id="fieldSettings">
 									<fieldset class="language">
 									<legend>Language: </legend>
