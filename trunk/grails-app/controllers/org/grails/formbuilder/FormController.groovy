@@ -37,17 +37,10 @@ class FormController {
 	 	 
     def save = {
         def formInstance = new Form(params)
-		    formInstance.fieldsList.eachWithIndex { field, i ->
-					println "$i) ${field?.name}"
-                }
-		    def fieldsToBeDeleted = formInstance.fieldsList.findAll { it == null || it.status == FieldStatus.D }
+		    def fieldsToBeDeleted = formInstance.fieldsList.findAll { !it || it.status == FieldStatus.D }
 			  if (fieldsToBeDeleted) {
 			      formInstance.fieldsList.removeAll(fieldsToBeDeleted)
 			    }
-			  println "After Deletion"
-			 formInstance.fieldsList.eachWithIndex { field, i ->
-				  println "$i) ${field.name}"
-			  }
 			if (formInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'form.label', default: 'Form'), formInstance.id])}"
             redirect(action: "show", id: formInstance.id)
@@ -78,7 +71,8 @@ class FormController {
             redirect(action: "list")
         }
         else {
-            return [formInstance: formInstance]
+            renderView("edit", formInstance, 
+				           formTemplateService.getEditViewTemplate(request, formInstance))
         }
     }
 
@@ -95,12 +89,18 @@ class FormController {
                 }
             }
             formInstance.properties = params
+						def fieldsToBeDeleted = formInstance.fieldsList.findAll { !it || it.status == FieldStatus.D }
+						if (fieldsToBeDeleted) {
+							formInstance.fieldsList.removeAll(fieldsToBeDeleted)
+						  }
             if (!formInstance.hasErrors() && formInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'form.label', default: 'Form'), formInstance.id])}"
                 redirect(action: "show", id: formInstance.id)
             }
             else {
-                render(view: "edit", model: [formInstance: formInstance])
+						formInstance.fieldsList.sort { a, b -> return a.sequence.compareTo(b.sequence) }
+						renderView("edit", formInstance, 
+						           formTemplateService.getEditViewTemplate(request, formInstance))
             }
         }
         else {
