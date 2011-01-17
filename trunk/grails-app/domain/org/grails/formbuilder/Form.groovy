@@ -49,7 +49,9 @@ class Form {
 	List fieldsList = new ArrayList()
 	static hasMany = [ fieldsList:Field ]
 	
-	static mapping = { fieldsList cascade:"all-delete-orphan" }
+	static mapping = { 
+		fieldsList cascade:"all-delete-orphan", sort: "sequence", lazy:false 
+	}
 	
 	// From: http://omarello.com/2010/08/grails-one-to-many-dynamic-forms/
 	def getFields() {

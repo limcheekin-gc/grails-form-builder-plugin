@@ -40,7 +40,7 @@ class Field {
 		lastUpdated nullable:true
 	}
 	
-	static belongsTo = Form
+	static belongsTo = [form:Form]
 }
 
 enum FieldStatus {
