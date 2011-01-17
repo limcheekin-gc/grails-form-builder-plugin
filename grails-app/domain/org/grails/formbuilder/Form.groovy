@@ -42,6 +42,7 @@ class Form {
 		domainClassFullName nullable:true, blank: true
 		numberOfColumnInList nullable:true, blank: true 
 		numberOfRowPerPage nullable:true, blank: true
+		fieldsList nullable:false, minSize: 1
 		dateCreated blank:false
 		lastUpdated nullable:true
 	}
