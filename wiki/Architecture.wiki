@@ -3,6 +3,7 @@
 #sidebar TableOfContents
 
 = Introduction =
+*Note: This document is out-dated, it will be revised soon (edited on 26-Jan-2011)*
 The Grails Form Builder Plugin consists of the following two main components:
 ||<strong>Form Designer</strong>||<strong>Form Viewer</strong>||
 ||http://grails-form-builder-plugin.googlecode.com/svn/wiki/images/architecture/Form_Designer.png||http://grails-form-builder-plugin.googlecode.com/svn/wiki/images/architecture/Form_Viewer.png||
