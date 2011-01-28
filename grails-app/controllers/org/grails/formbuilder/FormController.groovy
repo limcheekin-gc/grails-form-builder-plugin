@@ -24,7 +24,7 @@ class FormController {
 		    formInstance.name = "form${flash.formCounter}"
 			  formInstance.settings = ""
 		    renderView("create", formInstance, 
-				           formTemplateService.getCreateViewTemplate(request, formInstance))
+				           formTemplateService.getCreateViewTemplate(request, flash, formInstance))
       }
 	
 	 private renderView(name, formInstance, templateText) {
@@ -51,7 +51,7 @@ class FormController {
         else {
 			  formInstance.fieldsList.sort { a, b -> return a.sequence.compareTo(b.sequence) }
 		    renderView("create", formInstance, 
-				           formTemplateService.getCreateViewTemplate(request, formInstance))
+				           formTemplateService.getCreateViewTemplate(request, flash, formInstance))
         }
     }
 
