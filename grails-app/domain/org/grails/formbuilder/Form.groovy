@@ -26,6 +26,7 @@ import org.apache.commons.collections.FactoryUtils
 class Form {
 	String name
 	String description
+	String settings
 	String templateSource
 	String domainClassCode
 	String domainClassFullName
@@ -36,7 +37,8 @@ class Form {
 	
 	static constraints = {
 		name blank: false, unique: true
-		description blank: false
+		description nullable:true, blank: true
+		settings nullable:false, blank: false
 		templateSource nullable:true, blank: true
 		domainClassCode nullable:true, blank: true
 		domainClassFullName nullable:true, blank: true
@@ -51,7 +53,7 @@ class Form {
 	static hasMany = [ fieldsList:Field ]
 	
 	static mapping = { 
-		fieldsList cascade:"all-delete-orphan", sort: "sequence", lazy:false 
+		fieldsList cascade:"all-delete-orphan", sort: "sequence", lazy: false 
 	}
 	
 	// From: http://omarello.com/2010/08/grails-one-to-many-dynamic-forms/

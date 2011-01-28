@@ -8,55 +8,55 @@ class FormTemplateService {
 	def grailsApplication
 	static transactional = false
 	static final String WIDGET_PACKAGE = "org.grails.formbuilder.widget"
-	static final String LAYOUT = "formbuilder"
+	static final String LAYOUT = "formDesigner"
+	static final String BUILDER_PANEL = """\
+  <div id="builderPanel">
+    <div class="formHeading"></div>
+	  <fieldset>
+	    <div id="emptyBuilderPanel">Start adding some fields from the menu on the left.</div>
+      @FIELDS
+    </fieldset>
+  </div>		
+	"""
 	static final String BUILDER_PALETTE = """\
-	<div id="builderPalette">
-	   <div class="floatingPanelIdentifier"></div>
-	   <div class="floatingPanel">
-			  <div id="paletteTabs">
-				  <ul>
-					  <li><a href="#addField">Add Field</a></li>
-					  <li><a href="#fieldSettings">Field Settings</a></li>
-					  <li><a href="#formSettings">Form Settings</a></li>
-				  </ul>
-				  <div id="addField">
-					<strong>Standard Fields</strong>
-					  <div id="standardFields"></div>
-					  <br />
-					<strong>Fancy Fields</strong>
-					<div id="fancyFields"></div>
-				  </div>
-				  <div id="fieldSettings">
-					  <fieldset class="language">
-					  <legend>Language: </legend>
-					  </fieldset>
-					  <div class="general">
-					  </div>
-				  </div>
-				  <div id="formSettings">
-					  <fieldset class="language">
-					  <legend>
-					  <label for="language">Language: </label>
-					  <select id="language">
-						<option value="zh">Chinese</option>
-						<option value="en" selected>English</option>
-					  </select>
-					  </legend>
-					  </fieldset>
-					  <div class="general">
-						  <div class="clear labelOnTop">
-							  <label for="text">Name (?)</label><br/>
-							  <input type="text" id="form.name" />
-						  </div>
-						  <div class="clear labelOnTop">
-							  <label for="text">Description (?)</label><br/>
-							  <textarea id="form.description"></textarea>
-						  </div>
-					  </div>
-				  </div>
-			  </div>
-	   </div>
-	</div>
+  <div id="builderPalette">
+     <div class="floatingPanelIdentifier"></div>
+     <div class="floatingPanel">
+			<div id="paletteTabs">
+				<ul>
+					<li><a href="#addField">Add Field</a></li>
+					<li><a href="#fieldSettings">Field Settings</a></li>
+					<li><a href="#formSettings">Form Settings</a></li>
+				</ul>
+				<div id="addField">
+				  <strong>Standard Fields</strong>
+					<div id="standardFields"></div>
+					<br />
+				  <strong>Fancy Fields</strong>
+				  <div id="fancyFields"></div>
+				</div>
+				<div id="fieldSettings">
+					<fieldset class="language">
+					<legend></legend>
+					</fieldset>
+					<div class="general">
+					</div>				
+				</div>
+				<div id="formSettings">
+					<fieldset class="language">
+					<legend>
+					<label for="language">Language: </label>
+					<select id="language">
+					  <option value="zh">Chinese</option>
+					  <option value="en" selected>English</option>
+					</select>
+					</legend>
+					</fieldset>	
+					<div class="general"></div>								
+				</div>
+			</div>     
+     </div>
+  </div>
 	  """
 	static final String FB_CREATE_VIEW = """\
 [#ftl/]
@@ -64,7 +64,7 @@ class FormTemplateService {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${LAYOUT}" />
-        [#assign  entityName=g._message({'code': 'form.label', 'default': 'Form'}) /]
+        [#assign  entityName=g.message({'code': 'form.label', 'default': 'Form'}) /]
         <title>[@g.message code="default.create.label" args=[entityName] /]</title>
         <script type="text/javascript">
         \$(function() {
@@ -76,7 +76,7 @@ class FormTemplateService {
     <body>
         <content tag="nav">
            <div class="title"><h1>[@g.message code="default.create.label" args=[entityName] /]</h1></div>
-           <span class="menuButton"><a class="home" href="\${g._createLink({'uri': '/'})}">\${g._message({'code':'default.home.label'})}</a></span>
+           <span class="menuButton"><a class="home" href="\${g.createLink({'uri': '/'})}">\${g.message({'code':'default.home.label'})}</a></span>
            <span class="menuButton">[@g.link class="list" action="list"][@g.message code="default.list.label" args=[entityName] /][/@g.link]</span>      
         </content>
 				<div id="container">
@@ -92,16 +92,11 @@ class FormTemplateService {
 				  </div>
 					${BUILDER_PALETTE}
 				  [@g.form action="save" name="builderForm" class="uniForm"]
-				  <div id="builderPanel">
-						  <div id="emptyBuilderPanel">Start adding some fields from the menu on the left.</div>
-						  <fieldset>
-						  	[@g.hiddenField name="name" /]
-		            [@g.hiddenField name="description" /]
-		            @FIELDS  
-						  </fieldset>
-				  </div>
+					  [@g.hiddenField name="name" value="\${formInstance.name}" /]
+						[@g.hiddenField name="settings" value="\${formInstance.settings}" /]
+          ${BUILDER_PANEL}				  
 				  <div class="buttons">
-						  [@g.submitButton name="create" class="save" value="\${g._message({'code': 'default.button.create.label', 'default': 'Create'})}" /]
+						  [@g.submitButton name="create" class="save" value="\${g.message({'code': 'default.button.create.label', 'default': 'Create'})}" /]
 					</div>
 					[/@g.form] 
 				</div>            
@@ -114,7 +109,7 @@ class FormTemplateService {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${LAYOUT}" />
-         [#assign entityName=g._message({'code': 'form.label', 'default': 'Form'}) /]
+         [#assign entityName=g.message({'code': 'form.label', 'default': 'Form'}) /]
         <title>[@g.message code="default.show.label" args=[entityName] /]</title>
         <script type="text/javascript">
         \$(function() {
@@ -127,7 +122,7 @@ class FormTemplateService {
     <body>
         <content tag="nav">
            <div class="title"><h1>[@g.message code="default.show.label" args=[entityName] /]</h1></div>
-           <span class="menuButton"><a class="home" href="\${g._createLink({'uri': '/'})}">\${g._message({'code':'default.home.label'})}</a></span>
+           <span class="menuButton"><a class="home" href="\${g.createLink({'uri': '/'})}">\${g.message({'code':'default.home.label'})}</a></span>
            <span class="menuButton">[@g.link class="list" action="list"][@g.message code="default.list.label" args=[entityName] /][/@g.link]</span>  
            <span class="menuButton">[@g.link class="create" action="create"][@g.message code="default.new.label" args=[entityName] /][/@g.link]</span>  
         </content>
@@ -139,18 +134,13 @@ class FormTemplateService {
 				  </div>
 					${BUILDER_PALETTE}
 				  [@g.form name="builderForm" class="uniForm"]
-				  <div id="builderPanel">
-						  <div id="emptyBuilderPanel">Start adding some fields from the menu on the left.</div>
-						  <fieldset>
-						  	[@g.hiddenField name="id" value="\${formInstance.id}" /]
-						    [@g.hiddenField name="name" value="\${formInstance.name}" /]
-							  [@g.hiddenField name="description" value="\${formInstance.description}" /]	  	
-		            @FIELDS  						  
-						  </fieldset>
-				  </div>
+						[@g.hiddenField name="id" value="\${formInstance.id}" /]
+						[@g.hiddenField name="name" value="\${formInstance.name}" /]
+					  [@g.hiddenField name="settings" value="\${formInstance.settings}" /]						
+					${BUILDER_PANEL}				  
 				  <div class="buttons">
-				  [@g.actionSubmit class="edit" value="\${g._message({'code': 'default.button.edit.label', 'default': 'Edit'})}" /]
-				  [@g.actionSubmit class="delete" value="\${g._message({'code': 'default.button.delete.label', 'default': 'Delete'})}" onclick="return confirm('\${g._message({'code': 'default.button.delete.confirm.message', 'default': 'Are you sure?'})}');" /]
+				  [@g.actionSubmit class="edit" value="\${g.message({'code': 'default.button.edit.label', 'default': 'Edit'})}" /]
+				  [@g.actionSubmit class="delete" value="\${g.message({'code': 'default.button.delete.label', 'default': 'Delete'})}" onclick="return confirm('\${g.message({'code': 'default.button.delete.confirm.message', 'default': 'Are you sure?'})}');" /]
 					</div>
 					[/@g.form]	  
 				</div>                    
@@ -163,7 +153,7 @@ class FormTemplateService {
 			<head>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 				<meta name="layout" content="${LAYOUT}" />
-				[#assign  entityName=g._message({'code': 'form.label', 'default': 'Form'}) /]
+				[#assign  entityName=g.message({'code': 'form.label', 'default': 'Form'}) /]
 				<title>[@g.message code="default.edit.label" args=[entityName] /]</title>
 				<script type="text/javascript">
 				\$(function() {
@@ -175,7 +165,7 @@ class FormTemplateService {
 			<body>
 				<content tag="nav">
 				   <div class="title"><h1>[@g.message code="default.edit.label" args=[entityName] /]</h1></div>
-				   <span class="menuButton"><a class="home" href="\${g._createLink({'uri': '/'})}">\${g._message({'code':'default.home.label'})}</a></span>
+				   <span class="menuButton"><a class="home" href="\${g.createLink({'uri': '/'})}">\${g.message({'code':'default.home.label'})}</a></span>
 				   <span class="menuButton">[@g.link class="list" action="list"][@g.message code="default.list.label" args=[entityName] /][/@g.link]</span>
            <span class="menuButton">[@g.link class="create" action="create"][@g.message code="default.new.label" args=[entityName] /][/@g.link]</span>  
 				</content>
@@ -192,19 +182,14 @@ class FormTemplateService {
 						  </div>
 						  ${BUILDER_PALETTE}
 						  [@g.form method="post" name="builderForm" class="uniForm"]
-						  <div id="builderPanel">
-								  <div id="emptyBuilderPanel">Start adding some fields from the menu on the left.</div>
-								  <fieldset>
-									  [@g.hiddenField name="name" value="\${formInstance.name}" /]
-							      [@g.hiddenField name="description" value="\${formInstance.description}" /]
-							      [@g.hiddenField name="id" value="\${formInstance.id}" /]
-							      [@g.hiddenField name="version" value="\${formInstance.version}" /]
-							      @FIELDS
-								  </fieldset>
-						  </div>
+							  [@g.hiddenField name="name" value="\${formInstance.name}" /]
+							  [@g.hiddenField name="settings" value="\${formInstance.settings}" /]
+							  [@g.hiddenField name="id" value="\${formInstance.id}" /]
+							  [@g.hiddenField name="version" value="\${formInstance.version}" /]	
+					    ${BUILDER_PANEL}
 						  <div class="buttons">
-							  [@g.actionSubmit class="save" value="\${g._message({'code': 'default.button.update.label', 'default': 'Update'})}" /]
-							  [@g.actionSubmit class="delete" value="\${g._message({'code': 'default.button.delete.label', 'default': 'Delete'})}" onclick="return confirm('\${g._message({'code': 'default.button.delete.confirm.message', 'default': 'Are you sure?'})}');" /]
+							  [@g.actionSubmit class="save" value="\${g.message({'code': 'default.button.update.label', 'default': 'Update'})}" /]
+							  [@g.actionSubmit class="delete" value="\${g.message({'code': 'default.button.delete.label', 'default': 'Delete'})}" onclick="return confirm('\${g.message({'code': 'default.button.delete.confirm.message', 'default': 'Are you sure?'})}');" /]
 							</div>
 							[/@g.form]
 						</div>
