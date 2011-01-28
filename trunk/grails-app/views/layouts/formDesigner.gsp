@@ -6,7 +6,9 @@
         <jqui:resources theme="smoothness" />
         <jqJson:resources />
         <uf:resources />    
-        <jqfb:resources />        
+        <jqfb:resources />      
+        <script type="text/javascript" src="${resource(dir:'js',file:'jquery.qtip.min.js')}"></script>
+        <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'jquery.qtip.css')}" />  
         <g:layoutHead />
         <style type="text/css">
         div.logo {

@@ -22,7 +22,7 @@ log4j = {
 
     warn   'org.mortbay.log'
 	
-	  debug 'org.grails.formbuilder.FormDesignerController'
+	  debug 'org.grails.formbuilder'
 }
 grails.views.default.codec="none" // none, html, base64
 grails.views.gsp.encoding="UTF-8"
@@ -104,3 +104,9 @@ jqueryValidationUi {
 
 uniForm.validation = false
 jqueryFormBuilder.minified = false
+
+grails.plugins.freemarkertags = [
+	autoImport: false,
+	defineFunctions: true,
+	asSharedVariables: true
+ ]

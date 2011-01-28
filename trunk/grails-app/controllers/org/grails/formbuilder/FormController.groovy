@@ -20,12 +20,15 @@ class FormController {
     def create = {
         def formInstance = new Form()
         formInstance.properties = params
+		    flash.formCounter = Form.executeQuery('select max(f.id) from Form f') + 1
+		    formInstance.name = "form${flash.formCounter}"
+			  formInstance.settings = ""
 		    renderView("create", formInstance, 
 				           formTemplateService.getCreateViewTemplate(request, formInstance))
       }
 	
 	 private renderView(name, formInstance, templateText) {
-		 println "$name:\n$templateText"
+		 // println "$name:\n$templateText"
 		 FastStringWriter out = new FastStringWriter()
 		 new Template(name,
 			 new StringReader(templateText),
@@ -54,12 +57,18 @@ class FormController {
 
     def show = {
         def formInstance = Form.get(params.id)
+		
+		    formInstance.fieldsList.each { field ->
+				  println "field.name = ${field.name}, field.sequence = ${field.sequence}"
+		        }
         if (!formInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'form.label', default: 'Form'), params.id])}"
             redirect(action: "list")
         }
         else {
-		    renderView("show", formInstance, 
+            // TODO: workaround for default sort order not working
+			      formInstance.fieldsList.sort { a, b -> return a.sequence.compareTo(b.sequence) }
+			      renderView("show", formInstance, 
 				           formTemplateService.getShowViewTemplate(request, formInstance))
         }
     }
