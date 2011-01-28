@@ -3,6 +3,7 @@ package org.grails.formbuilder
 import org.grails.formbuilder.widget.Widget
 import org.codehaus.groovy.grails.web.pages.FastStringWriter
 import org.springframework.web.servlet.support.RequestContextUtils as RCU
+import grails.converters.JSON
 
 class FormTemplateService {
 	def grailsApplication
@@ -10,8 +11,8 @@ class FormTemplateService {
 	static final String WIDGET_PACKAGE = "org.grails.formbuilder.widget"
 	static final String LAYOUT = "formDesigner"
 	static final String BUILDER_PANEL = """\
-  <div id="builderPanel">
-    <div class="formHeading"></div>
+  <div id="builderPanel" style="\${flash.builderPanelStyles}">
+    <div class="formHeading">\${flash.formHeading}</div>
 	  <fieldset>
 	    <div id="emptyBuilderPanel">Start adding some fields from the menu on the left.</div>
       @FIELDS
@@ -196,25 +197,56 @@ class FormTemplateService {
 			</body>
 		</html>
 		"""
-	String getCreateViewTemplate(def request, Form form) {
+	String getCreateViewTemplate(def request, def flash, Form form) {
+		def settings
+		Locale locale = RCU.getLocale(request)
+		if (form.settings) {
+			settings = JSON.parse(form.settings)
+		 }
+		setBuilderPanelStyles(flash, settings)
+		setFormHeading(flash, settings."${locale.language}")
 		return FB_CREATE_VIEW.replace('@FIELDS', 
-			              getWidgetsTemplateText(request, form, false, true))
+			              getWidgetsTemplateText(request, form, locale, false, true))
 	}
 	
+	private setBuilderPanelStyles(def flash, def settings) {
+		if (settings) {
+			flash.builderPanelStyles = "font-family: ${settings.styles.fontFamily}; " + 
+			                           "font-size: ${settings.styles.fontSize}px; " +
+									               "color: #${settings.styles.color}; " +
+												         "background-color: #${settings.styles.backgroundColor}"
+		} else {
+		  flash.builderPanelStyles = ''
+		} 
+	}
+	
+	private setFormHeading(def flash, def settings) {
+		if (settings) {
+			String style = "font-weight: ${settings.fontStyles[0] == 1 ? 'bold' : 'normal' };" +
+			               "font-style: ${settings.fontStyles[1] == 1 ? 'italic' : 'normal' };" +
+						         "text-decoration: ${settings.fontStyles[2] == 1 ? 'underline' : 'none' };" 					   
+			
+			flash.formHeading = """<${settings.heading} class="heading ${settings.classes[0]}" style="${style}">""" + 
+				                  "${settings.name}</${settings.heading}>"
+		} else {
+		  flash.formHeading = ''
+		}
+	}
 	String getShowViewTemplate(def request, Form form) {
+		Locale locale = RCU.getLocale(request)
 		return FB_SHOW_VIEW.replace('@FIELDS',
-						  getWidgetsTemplateText(request, form, true, true))
+						  getWidgetsTemplateText(request, form, locale, true, true))
 	}
 	
 	String getEditViewTemplate(def request, Form form) {
+		Locale locale = RCU.getLocale(request)
 		return FB_EDIT_VIEW.replace('@FIELDS',
-						  getWidgetsTemplateText(request, form, false, true))
+						  getWidgetsTemplateText(request, form, locale, false, true))
 	}
 	
-	private String getWidgetsTemplateText(def request, Form form, Boolean readOnly = false, Boolean forBuilder = false) {
+	private String getWidgetsTemplateText(def request, Form form, Locale locale, Boolean readOnly = false, Boolean forBuilder = false) {
 		Widget widget
 		if (form.fieldsList?.size() > 0) {
-			Locale locale = RCU.getLocale(request)
 			FastStringWriter out = new FastStringWriter()
 			form.fieldsList.eachWithIndex { field, i ->
 				widget = grailsApplication.classLoader.loadClass("${WIDGET_PACKAGE}.${field.type}").newInstance()
