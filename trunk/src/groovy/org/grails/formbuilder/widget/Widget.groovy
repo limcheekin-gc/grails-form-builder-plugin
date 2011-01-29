@@ -15,6 +15,7 @@
 package org.grails.formbuilder.widget
 
 import org.grails.formbuilder.Field
+import org.grails.formbuilder.FormDesignerView
 import org.codehaus.groovy.grails.web.pages.FastStringWriter
 import grails.converters.JSON
 
@@ -27,7 +28,7 @@ import grails.converters.JSON
 abstract class Widget {
 	static final String EMPTY_STRING = ""
 	
-	String getTemplateText(Field field, Integer index, Locale locale, Boolean readOnly = false, Boolean forBuilder = false) {
+	String getTemplateText(Field field, Integer index, Locale locale, Boolean readOnly = false, FormDesignerView formDesignerView = null) {
 		FastStringWriter out = new FastStringWriter()
 		Object settings = JSON.parse(field.settings)
 		out << '<div class="ctrlHolder ' 
@@ -39,16 +40,17 @@ abstract class Widget {
 		out << '">'
 		String templateText 
 		if (readOnly) {
-		  templateText = getWidgetReadOnlyTemplateText(field.name, settings, locale, forBuilder)
-		  templateText = templateText?:getWidgetTemplateText(field.name, settings, locale, forBuilder)
+		  templateText = getWidgetReadOnlyTemplateText(field.name, settings, locale, formDesignerView)
+		  templateText = templateText?:getWidgetTemplateText(field.name, settings, locale, formDesignerView)
 		} else {  
-			templateText = getWidgetTemplateText(field.name, settings, locale, forBuilder)
+			templateText = getWidgetTemplateText(field.name, settings, locale, formDesignerView)
 		}
 		out << templateText
-		if (!readOnly) {
-			out << '<a class="ui-corner-all closeButton" href="#"><span class="ui-icon ui-icon-close">delete this widget</span></a>'
-		}
-		if (forBuilder) {
+		
+		if (formDesignerView) {
+			if (formDesignerView != FormDesignerView.SHOW) {
+				out << '<a class="ui-corner-all closeButton" href="#"><span class="ui-icon ui-icon-close">delete this widget</span></a>'
+			}
 			out << """\
 				 <div class="fieldProperties">
 					  [@g.hiddenField name="fields[$index].id" value="${field.id}" /]
@@ -65,9 +67,9 @@ abstract class Widget {
 	}
 	
 	abstract String getWidgetTemplateText(String name, Object settings, 
-	                                      Locale locale, Boolean forBuilder)
+	                                      Locale locale, FormDesignerView formDesignerView)
 	abstract String getWidgetReadOnlyTemplateText(String name, Object settings,
-		                                            Locale locale, Boolean forBuilder)
+		                                            Locale locale, FormDesignerView formDesignerView)
 	String getFieldClasses(Object settings, Locale locale) { return EMPTY_STRING	}
 	String getFieldStyles(Object settings, Locale locale) { return EMPTY_STRING	}
 }
