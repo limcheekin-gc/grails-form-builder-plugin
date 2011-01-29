@@ -12,7 +12,7 @@ class FormTemplateService {
 	static final String LAYOUT = "formDesigner"
 	static final String BUILDER_PANEL = """\
   <div id="builderPanel" style="\${flash.builderPanelStyles}">
-    <div class="formHeading">\${flash.formHeading}</div>
+    <div class="formHeading\${flash.formHeadingHorizontalAlign}">\${flash.formHeading}</div>
 	  <fieldset>
 	    <div id="emptyBuilderPanel">Start adding some fields from the menu on the left.</div>
       @FIELDS
@@ -204,9 +204,9 @@ class FormTemplateService {
 			settings = JSON.parse(form.settings)
 		 }
 		setBuilderPanelStyles(flash, settings)
-		setFormHeading(flash, settings."${locale.language}")
-		return FB_CREATE_VIEW.replace('@FIELDS', 
-			              getWidgetsTemplateText(request, form, locale, false, true))
+		setFormHeading(flash, settings?."${locale.language}")
+		return FB_CREATE_VIEW.replace('@FIELDS',
+						  getWidgetsTemplateText(form, locale, true))
 	}
 	
 	private setBuilderPanelStyles(def flash, def settings) {
@@ -216,7 +216,7 @@ class FormTemplateService {
 									               "color: #${settings.styles.color}; " +
 												         "background-color: #${settings.styles.backgroundColor}"
 		} else {
-		  flash.builderPanelStyles = ''
+		  flash.builderPanelStyles = Widget.EMPTY_STRING
 		} 
 	}
 	
@@ -226,31 +226,40 @@ class FormTemplateService {
 			               "font-style: ${settings.fontStyles[1] == 1 ? 'italic' : 'normal' };" +
 						         "text-decoration: ${settings.fontStyles[2] == 1 ? 'underline' : 'none' };" 					   
 			
-			flash.formHeading = """<${settings.heading} class="heading ${settings.classes[0]}" style="${style}">""" + 
+			flash.formHeading = """<${settings.heading} class="heading" style="${style}">""" + 
 				                  "${settings.name}</${settings.heading}>"
+		  flash.formHeadingHorizontalAlign = " ${settings.classes[0]}"
 		} else {
-		  flash.formHeading = ''
+		  flash.formHeading = Widget.EMPTY_STRING
+		  flash.formHeadingHorizontalAlign = Widget.EMPTY_STRING
 		}
 	}
-	String getShowViewTemplate(def request, Form form) {
+	
+	String getShowViewTemplate(def request, def flash, Form form) {
 		Locale locale = RCU.getLocale(request)
+		def settings = JSON.parse(form.settings)
+    setBuilderPanelStyles(flash, settings)
+    setFormHeading(flash, settings."${locale.language}")
 		return FB_SHOW_VIEW.replace('@FIELDS',
-						  getWidgetsTemplateText(request, form, locale, true, true))
+						  getWidgetsTemplateText(form, locale, true))
 	}
 	
-	String getEditViewTemplate(def request, Form form) {
+	String getEditViewTemplate(def request, def flash, Form form) {
 		Locale locale = RCU.getLocale(request)
+		def settings = JSON.parse(form.settings)
+		setBuilderPanelStyles(flash, settings)
+		setFormHeading(flash, settings."${locale.language}")
 		return FB_EDIT_VIEW.replace('@FIELDS',
-						  getWidgetsTemplateText(request, form, locale, false, true))
+						  getWidgetsTemplateText(form, locale, true))
 	}
 	
-	private String getWidgetsTemplateText(def request, Form form, Locale locale, Boolean readOnly = false, Boolean forBuilder = false) {
+	private String getWidgetsTemplateText(Form form, Locale locale, Boolean forBuilder = false) {
 		Widget widget
 		if (form.fieldsList?.size() > 0) {
 			FastStringWriter out = new FastStringWriter()
 			form.fieldsList.eachWithIndex { field, i ->
 				widget = grailsApplication.classLoader.loadClass("${WIDGET_PACKAGE}.${field.type}").newInstance()
-				out << widget.getTemplateText(field, i, locale, readOnly, forBuilder)
+				out << widget.getTemplateText(field, i, locale, false, forBuilder)
 			}
 			return out.toString();
 		} else {

@@ -29,18 +29,20 @@ abstract class Widget {
 	
 	String getTemplateText(Field field, Integer index, Locale locale, Boolean readOnly = false, Boolean forBuilder = false) {
 		FastStringWriter out = new FastStringWriter()
-		Object fieldSettings = JSON.parse(field.settings)
+		Object settings = JSON.parse(field.settings)
 		out << '<div class="ctrlHolder ' 
-		out << getDivClasses(fieldSettings, locale)
+		out << getFieldClasses(settings, locale)
 		out << '" rel="'
 		out << index
+		out << '" style="'
+		out << getFieldStyles(settings, locale)
 		out << '">'
 		String templateText 
 		if (readOnly) {
-		  templateText = getWidgetReadOnlyTemplateText(field.name, fieldSettings, locale, forBuilder)
-		  templateText = templateText?:getWidgetTemplateText(field.name, fieldSettings, locale, forBuilder)
+		  templateText = getWidgetReadOnlyTemplateText(field.name, settings, locale, forBuilder)
+		  templateText = templateText?:getWidgetTemplateText(field.name, settings, locale, forBuilder)
 		} else {  
-			templateText = getWidgetTemplateText(field.name, fieldSettings, locale, forBuilder)
+			templateText = getWidgetTemplateText(field.name, settings, locale, forBuilder)
 		}
 		out << templateText
 		if (!readOnly) {
@@ -62,9 +64,10 @@ abstract class Widget {
 		return out.toString()
 	}
 	
-	abstract String getWidgetTemplateText(String fieldName, Object fieldSettings, 
+	abstract String getWidgetTemplateText(String name, Object settings, 
 	                                      Locale locale, Boolean forBuilder)
-	abstract String getWidgetReadOnlyTemplateText(String fieldName, Object fieldSettings,
+	abstract String getWidgetReadOnlyTemplateText(String name, Object settings,
 		                                            Locale locale, Boolean forBuilder)
-	String getDivClasses(Object fieldSettings, Locale locale) { return EMPTY_STRING	}
+	String getFieldClasses(Object settings, Locale locale) { return EMPTY_STRING	}
+	String getFieldStyles(Object settings, Locale locale) { return EMPTY_STRING	}
 }

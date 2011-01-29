@@ -23,18 +23,28 @@ import java.util.Locale;
  * @since 0.1
  */
 class PlainText extends Widget {
- String getDivClasses(Object fieldSettings, Locale locale) {
-		return fieldSettings."${locale.language}".classes[1]
+ String getFieldClasses(Object settings, Locale locale) {
+		return settings."${locale.language}".classes[1]
   }
  
- String getWidgetTemplateText(String fieldName, Object fieldSettings,  
+ String getFieldStyles(Object settings, Locale locale) { 
+	 return "font-weight: ${settings.styles.fontStyles[0] == 1 ? 'bold' : 'normal' };" +
+			    "font-style: ${settings.styles.fontStyles[1] == 1 ? 'italic' : 'normal' };" +
+			    "text-decoration: ${settings.styles.fontStyles[2] == 1 ? 'underline' : 'none' };" +
+				  "font-family: ${settings.styles.fontFamily}; " +
+				  "font-size: ${settings.styles.fontSize}px; " +
+					"color: #${settings.styles.color}; " +
+					"background-color: #${settings.styles.backgroundColor}"
+  }
+ 
+ String getWidgetTemplateText(String name, Object settings,  
 	                            Locale locale, Boolean forBuilder) {
-		String text = fieldSettings."${locale.language}".text
-		String styleClass = fieldSettings."${locale.language}".classes[0]
+		String text = settings."${locale.language}".text
+		String styleClass = settings."${locale.language}".classes[0]
 		return """<div class="PlainText ${styleClass}">${text}</div>"""
    }
 								
- String getWidgetReadOnlyTemplateText(String fieldName, Object fieldSettings,
+ String getWidgetReadOnlyTemplateText(String name, Object settings,
 									                    Locale locale, Boolean forBuilder) {
 														
     return null
