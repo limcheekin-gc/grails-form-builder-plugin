@@ -69,7 +69,7 @@ class FormController {
             // TODO: workaround for default sort order not working
 			      formInstance.fieldsList.sort { a, b -> return a.sequence.compareTo(b.sequence) }
 			      renderView("show", formInstance, 
-				           formTemplateService.getShowViewTemplate(request, formInstance))
+				           formTemplateService.getShowViewTemplate(request, flash, formInstance))
         }
     }
 
@@ -81,7 +81,7 @@ class FormController {
         }
         else {
             renderView("edit", formInstance, 
-				           formTemplateService.getEditViewTemplate(request, formInstance))
+				           formTemplateService.getEditViewTemplate(request, flash, formInstance))
         }
     }
 
@@ -109,7 +109,7 @@ class FormController {
             else {
 						formInstance.fieldsList.sort { a, b -> return a.sequence.compareTo(b.sequence) }
 						renderView("edit", formInstance, 
-						           formTemplateService.getEditViewTemplate(request, formInstance))
+						           formTemplateService.getEditViewTemplate(request, flash, formInstance))
             }
         }
         else {
