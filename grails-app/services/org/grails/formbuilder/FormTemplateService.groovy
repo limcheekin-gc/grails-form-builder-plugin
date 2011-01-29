@@ -206,7 +206,7 @@ class FormTemplateService {
 		setBuilderPanelStyles(flash, settings)
 		setFormHeading(flash, settings?."${locale.language}")
 		return FB_CREATE_VIEW.replace('@FIELDS',
-						  getWidgetsTemplateText(form, locale, true))
+						  getWidgetsTemplateText(form, locale, FormDesignerView.CREATE))
 	}
 	
 	private setBuilderPanelStyles(def flash, def settings) {
@@ -241,7 +241,7 @@ class FormTemplateService {
     setBuilderPanelStyles(flash, settings)
     setFormHeading(flash, settings."${locale.language}")
 		return FB_SHOW_VIEW.replace('@FIELDS',
-						  getWidgetsTemplateText(form, locale, true))
+						  getWidgetsTemplateText(form, locale, FormDesignerView.SHOW))
 	}
 	
 	String getEditViewTemplate(def request, def flash, Form form) {
@@ -250,16 +250,16 @@ class FormTemplateService {
 		setBuilderPanelStyles(flash, settings)
 		setFormHeading(flash, settings."${locale.language}")
 		return FB_EDIT_VIEW.replace('@FIELDS',
-						  getWidgetsTemplateText(form, locale, true))
+						  getWidgetsTemplateText(form, locale, FormDesignerView.EDIT))
 	}
 	
-	private String getWidgetsTemplateText(Form form, Locale locale, Boolean forBuilder = false) {
+	private String getWidgetsTemplateText(Form form, Locale locale, FormDesignerView formDesignerView = null) {
 		Widget widget
 		if (form.fieldsList?.size() > 0) {
 			FastStringWriter out = new FastStringWriter()
 			form.fieldsList.eachWithIndex { field, i ->
 				widget = grailsApplication.classLoader.loadClass("${WIDGET_PACKAGE}.${field.type}").newInstance()
-				out << widget.getTemplateText(field, i, locale, false, forBuilder)
+				out << widget.getTemplateText(field, i, locale, false, formDesignerView)
 			}
 			return out.toString();
 		} else {

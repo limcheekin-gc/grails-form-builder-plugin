@@ -14,7 +14,7 @@
  */
 package org.grails.formbuilder.widget
 
-import java.util.Locale;
+import org.grails.formbuilder.FormDesignerView
 
 /**
  *
@@ -38,14 +38,14 @@ class PlainText extends Widget {
   }
  
  String getWidgetTemplateText(String name, Object settings,  
-	                            Locale locale, Boolean forBuilder) {
+	                            Locale locale, FormDesignerView formDesignerView) {
 		String text = settings."${locale.language}".text
 		String styleClass = settings."${locale.language}".classes[0]
 		return """<div class="PlainText ${styleClass}">${text}</div>"""
    }
 								
  String getWidgetReadOnlyTemplateText(String name, Object settings,
-									                    Locale locale, Boolean forBuilder) {
+									                    Locale locale, FormDesignerView formDesignerView) {
 														
     return null
   }
