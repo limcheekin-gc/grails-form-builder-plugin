@@ -16,6 +16,7 @@ package org.grails.formbuilder.widget
 
 import org.grails.formbuilder.Field
 import org.grails.formbuilder.FormDesignerView
+import org.grails.formbuilder.FormBuilderConstants
 import org.codehaus.groovy.grails.web.pages.FastStringWriter
 import grails.converters.JSON
 
@@ -26,7 +27,6 @@ import grails.converters.JSON
  * @since 0.1
  */
 abstract class Widget {
-	static final String EMPTY_STRING = ""
 	
 	String getTemplateText(Field field, Integer index, Locale locale, Boolean readOnly = false, FormDesignerView formDesignerView = null) {
 		FastStringWriter out = new FastStringWriter()
@@ -66,10 +66,27 @@ abstract class Widget {
 		return out.toString()
 	}
 	
+	String getConstraints(Field field) {
+		FastStringWriter out = new FastStringWriter()
+		Object settings = JSON.parse(field.settings)
+		out << "${field.name} "
+		if (settings.required) {
+			out << "nullable:false, blank:false"
+		} else {
+		  out << "nullable:true"
+		}
+		String fieldConstraints = getFieldConstraints(settings)
+		if (fieldConstraints != FormBuilderConstants.EMPTY_STRING) {
+			out << ", ${fieldConstraints}"
+		}
+		return out.toString()
+	}
+	
 	abstract String getWidgetTemplateText(String name, Object settings, 
 	                                      Locale locale, FormDesignerView formDesignerView)
 	abstract String getWidgetReadOnlyTemplateText(String name, Object settings,
 		                                            Locale locale, FormDesignerView formDesignerView)
-	String getFieldClasses(Object settings, Locale locale) { return EMPTY_STRING	}
-	String getFieldStyles(Object settings, Locale locale) { return EMPTY_STRING	}
+	String getFieldClasses(Object settings, Locale locale) { return FormBuilderConstants.EMPTY_STRING	}
+	String getFieldStyles(Object settings, Locale locale) { return FormBuilderConstants.EMPTY_STRING	}
+	String getFieldConstraints(Object settings) { return FormBuilderConstants.EMPTY_STRING	}
 }
