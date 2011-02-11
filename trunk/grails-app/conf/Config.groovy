@@ -110,3 +110,11 @@ grails.plugins.freemarkertags = [
 	defineFunctions: true,
 	asSharedVariables: true
  ]
+
+formBuilder {
+	persistableFields = ['SingleLineText']
+	SingleLineText {
+		type = 'String'
+		defaultConstraints = 'maxSize:255'
+	}
+}

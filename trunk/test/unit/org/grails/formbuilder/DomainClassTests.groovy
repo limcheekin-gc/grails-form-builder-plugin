@@ -2,7 +2,7 @@ package org.grails.formbuilder
 
 import grails.test.*
 
-class FormDesignerControllerTests extends ControllerUnitTestCase {
+class DomainClassTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
     }
