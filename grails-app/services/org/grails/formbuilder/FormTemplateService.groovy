@@ -116,7 +116,6 @@ class FormTemplateService {
         \$(function() {
         	 \$('#container').formbuilder({tabDisabled: [0], tabSelected: 2, readOnly: true});
            \$('div.buttons').children().button();
-           \$('#id').removeAttr('disabled');
         	    });
         </script>    
     </head>
@@ -203,16 +202,16 @@ class FormTemplateService {
 		if (form.settings) {
 			settings = JSON.parse(form.settings)
 		 }
-		setBuilderPanelStyles(flash, settings)
+		setBuilderPanelStyles(flash, settings, locale)
 		setFormHeading(flash, settings?."${locale.language}")
 		return FB_CREATE_VIEW.replace('@FIELDS',
 						  getWidgetsTemplateText(form, locale, FormDesignerView.CREATE))
 	}
 	
-	private setBuilderPanelStyles(def flash, def settings) {
+	private setBuilderPanelStyles(def flash, def settings, Locale locale) {
 		if (settings) {
-			flash.builderPanelStyles = "font-family: ${settings.styles.fontFamily}; " + 
-			                           "font-size: ${settings.styles.fontSize}px; " +
+			flash.builderPanelStyles = "font-family: ${settings."${locale.language}".styles.fontFamily}; " + 
+			                           "font-size: ${settings."${locale.language}".styles.fontSize}px; " +
 									               "color: #${settings.styles.color}; " +
 												         "background-color: #${settings.styles.backgroundColor}"
 		} else {
@@ -222,9 +221,9 @@ class FormTemplateService {
 	
 	private setFormHeading(def flash, def settings) {
 		if (settings) {
-			String style = "font-weight: ${settings.fontStyles[0] == 1 ? 'bold' : 'normal' };" +
-			               "font-style: ${settings.fontStyles[1] == 1 ? 'italic' : 'normal' };" +
-						         "text-decoration: ${settings.fontStyles[2] == 1 ? 'underline' : 'none' };" 					   
+			String style = "font-weight: ${settings.styles.fontStyles[0] == 1 ? 'bold' : 'normal' };" +
+			               "font-style: ${settings.styles.fontStyles[1] == 1 ? 'italic' : 'normal' };" +
+						         "text-decoration: ${settings.styles.fontStyles[2] == 1 ? 'underline' : 'none' };" 					   
 			
 			flash.formHeading = """<${settings.heading} class="heading" style="${style}">""" + 
 				                  "${settings.name}</${settings.heading}>"
@@ -238,7 +237,7 @@ class FormTemplateService {
 	String getShowViewTemplate(def request, def flash, Form form) {
 		Locale locale = RCU.getLocale(request)
 		def settings = JSON.parse(form.settings)
-    setBuilderPanelStyles(flash, settings)
+    setBuilderPanelStyles(flash, settings, locale)
     setFormHeading(flash, settings."${locale.language}")
 		return FB_SHOW_VIEW.replace('@FIELDS',
 						  getWidgetsTemplateText(form, locale, FormDesignerView.SHOW))
@@ -247,7 +246,7 @@ class FormTemplateService {
 	String getEditViewTemplate(def request, def flash, Form form) {
 		Locale locale = RCU.getLocale(request)
 		def settings = JSON.parse(form.settings)
-		setBuilderPanelStyles(flash, settings)
+		setBuilderPanelStyles(flash, settings, locale)
 		setFormHeading(flash, settings."${locale.language}")
 		return FB_EDIT_VIEW.replace('@FIELDS',
 						  getWidgetsTemplateText(form, locale, FormDesignerView.EDIT))

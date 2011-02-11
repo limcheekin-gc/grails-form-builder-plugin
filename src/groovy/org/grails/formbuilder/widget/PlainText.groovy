@@ -28,11 +28,11 @@ class PlainText extends Widget {
   }
  
  String getFieldStyles(Object settings, Locale locale) { 
-	 return "font-weight: ${settings.styles.fontStyles[0] == 1 ? 'bold' : 'normal' };" +
-			    "font-style: ${settings.styles.fontStyles[1] == 1 ? 'italic' : 'normal' };" +
-			    "text-decoration: ${settings.styles.fontStyles[2] == 1 ? 'underline' : 'none' };" +
-				  "font-family: ${settings.styles.fontFamily}; " +
-				  "font-size: ${settings.styles.fontSize}px; " +
+	 return "font-weight: ${settings."${locale.language}".styles.fontStyles[0] == 1 ? 'bold' : 'normal' };" +
+			    "font-style: ${settings."${locale.language}".styles.fontStyles[1] == 1 ? 'italic' : 'normal' };" +
+			    "text-decoration: ${settings."${locale.language}".styles.fontStyles[2] == 1 ? 'underline' : 'none' };" +
+				  "font-family: ${settings."${locale.language}".styles.fontFamily}; " +
+				  "font-size: ${settings."${locale.language}".styles.fontSize}px; " +
 					"color: #${settings.styles.color}; " +
 					"background-color: #${settings.styles.backgroundColor}"
   }
