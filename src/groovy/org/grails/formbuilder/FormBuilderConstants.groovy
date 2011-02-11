@@ -83,7 +83,7 @@ class FormBuilderConstants {
 		<title>[@g.message code="default.create.label" args=[entityName] /]</title>
 		<script type="text/javascript">
 		\$(function() {
-			 \$('#container').formbuilder();
+			 \$('#container').formbuilder({formCounter: \${flash.formCounter}});
 			 \$('div.buttons').children().button();
 				});
 		</script>

@@ -14,13 +14,18 @@ class FormController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+				if (!params.sort) {
+				    params.order = "desc" 
+					  params.sort = "dateCreated"
+				}
         [formInstanceList: Form.list(params), formInstanceTotal: Form.count()]
     }
 
     def create = {
         def formInstance = new Form()
         formInstance.properties = params
-		    flash.formCounter = Form.executeQuery('select max(f.id) from Form f') + 1
+		    flash.formCounter = Form.executeQuery('select max(f.id) from Form f')[0]
+			  flash.formCounter = !flash.formCounter ? 1 : flash.formCounter + 1
 		    formInstance.name = "form${flash.formCounter}"
 			  formInstance.settings = ""
 		    renderView("create", formInstance, 
