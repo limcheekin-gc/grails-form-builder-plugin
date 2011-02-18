@@ -106,9 +106,8 @@ uniForm.validation = false
 jqueryFormBuilder.minified = false
 
 grails.plugins.freemarkertags = [
-	autoImport: false,
-	defineFunctions: true,
-	asSharedVariables: true
+   autoImport: false,
+   asSharedVariables: true
  ]
 
 formBuilder {

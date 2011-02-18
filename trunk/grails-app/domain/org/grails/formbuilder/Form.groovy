@@ -35,14 +35,13 @@ class Form {
 	Integer numberOfColumnInList
 	Integer numberOfRowPerPage
 	Integer persistableFieldsCount
-	Boolean domainClassSourceUpdated
 	Date dateCreated
 	Date lastUpdated
 	
 	static constraints = {
 		name blank: false, unique: true
 		description nullable:true, blank: true
-		settings nullable:false, blank: false
+		settings nullable:false, blank: false, maxSize:2000
 		domainClass nullable:false, unique: true
 		/* createViewTemplate nullable:false, unique: true
 		editViewTemplate nullable:false, unique: true
@@ -50,7 +49,6 @@ class Form {
 		numberOfColumnInList nullable:true, blank: true
 		numberOfRowPerPage nullable:true, blank: true
 		persistableFieldsCount nullable:false, min: 1
-		domainClassSourceUpdated nullable:true
 		fieldsList nullable:false, minSize: 1
 	}
 	

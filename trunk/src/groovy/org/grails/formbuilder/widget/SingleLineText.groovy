@@ -62,7 +62,7 @@ class SingleLineText extends Widget {
 		  textField = """\
 		  <span class="textOutput" style="${fontFamily}font-weight: ${fontWeight}; font-style: ${fontStyle}; \
 		  text-decoration: ${textDecoration}; ${fontSize}${valueColor}${valueBackgroundColor}">
-		  \${domainInstance.${name}}
+		  [#if domainInstance.${name}?exists]\${domainInstance.${name}}[/#if]
 		  </span>"""
 	  }
 	  return """<div><label for="${name}" style="font-weight: ${fontWeight}; font-style: ${fontStyle}; ${fontSize}">

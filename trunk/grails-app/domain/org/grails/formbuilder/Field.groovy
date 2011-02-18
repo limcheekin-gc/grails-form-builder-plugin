@@ -32,9 +32,9 @@ class Field {
 	static transients = ['status']
 	
 	static constraints = {
-		name nullable:false
+		name nullable:false, unique:'form'
 		type nullable:false
-		settings nullable:false
+		settings nullable:false, maxSize:2000
 		sequence nullable:false
 	}
 	

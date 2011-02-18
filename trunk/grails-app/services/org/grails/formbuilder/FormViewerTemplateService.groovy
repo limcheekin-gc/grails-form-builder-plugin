@@ -116,7 +116,7 @@ class FormViewerTemplateService {
 	}
 	
 	def handleDomainClassSourceUpdated(Form form, def domainClass, def domainInstance = null) {
-		if (form.domainClassSourceUpdated) {
+		if (form.domainClass.updated) {
 			def propertyNames = domainClass.persistentProperties*.name.findAll { !FormBuilderConstants.DOMAIN_CLASS_SYSTEM_FIELDS.contains(it) }
 			if (domainInstance && form.persistableFieldsCount < propertyNames.size()) {
 				def fieldsListNames = form.fieldsList*.name
