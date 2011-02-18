@@ -24,23 +24,26 @@ import org.grails.formbuilder.FormDesignerView
  */
 class PlainText extends Widget {
  String getFieldClasses(Object settings, Locale locale) {
-		return settings."${locale.language}".classes[1]
+	  String language = locale.language == 'en' ? 'en' : "${locale.language}_${locale.country}"
+		return settings."${language}".classes[1]
   }
  
  String getFieldStyles(Object settings, Locale locale) { 
-	 return "font-weight: ${settings."${locale.language}".styles.fontStyles[0] == 1 ? 'bold' : 'normal' };" +
-			    "font-style: ${settings."${locale.language}".styles.fontStyles[1] == 1 ? 'italic' : 'normal' };" +
-			    "text-decoration: ${settings."${locale.language}".styles.fontStyles[2] == 1 ? 'underline' : 'none' };" +
-				  "font-family: ${settings."${locale.language}".styles.fontFamily}; " +
-				  "font-size: ${settings."${locale.language}".styles.fontSize}px; " +
+	 String language = locale.language == 'en' ? 'en' : "${locale.language}_${locale.country}"
+	 return "font-weight: ${settings."${language}".styles.fontStyles[0] == 1 ? 'bold' : 'normal' };" +
+			    "font-style: ${settings."${language}".styles.fontStyles[1] == 1 ? 'italic' : 'normal' };" +
+			    "text-decoration: ${settings."${language}".styles.fontStyles[2] == 1 ? 'underline' : 'none' };" +
+				  "font-family: ${settings."${language}".styles.fontFamily}; " +
+				  "font-size: ${settings."${language}".styles.fontSize}px; " +
 					"color: #${settings.styles.color}; " +
 					"background-color: #${settings.styles.backgroundColor}"
   }
  
  String getWidgetTemplateText(String name, Object settings,  
 	                            Locale locale, FormDesignerView formDesignerView) {
-		String text = settings."${locale.language}".text
-		String styleClass = settings."${locale.language}".classes[0]
+		String language = locale.language == 'en' ? 'en' : "${locale.language}_${locale.country}"
+		String text = settings."${language}".text
+		String styleClass = settings."${language}".classes[0]
 		return """<div class="PlainText ${styleClass}">${text}</div>"""
    }
 								

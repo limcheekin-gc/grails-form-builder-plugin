@@ -25,7 +25,8 @@ import org.grails.formbuilder.FormBuilderConstants
  */
 class SingleLineText extends Widget {
  String getFieldStyles(Object settings, Locale locale) {
-	 String fontFamily = settings."${locale.language}".styles.fontFamily == 'default' ? FormBuilderConstants.EMPTY_STRING : "font-family: ${settings."${locale.language}".styles.fontFamily}; "
+	 String language = locale.language == 'en' ? 'en' : "${locale.language}_${locale.country}"
+	 String fontFamily = settings."${language}".styles.fontFamily == 'default' ? FormBuilderConstants.EMPTY_STRING : "font-family: ${settings."${language}".styles.fontFamily}; "
 	 String labelColor = settings.styles.label.color == 'default' ? FormBuilderConstants.EMPTY_STRING : "color: #${settings.styles.label.color}; "
 	 String labelBackgroundColor = settings.styles.label.backgroundColor == 'default' ? FormBuilderConstants.EMPTY_STRING : "background-color: #${settings.styles.label.backgroundColor}; "
 	 return "${fontFamily}${labelColor}${labelBackgroundColor}"
@@ -38,7 +39,8 @@ class SingleLineText extends Widget {
 								
  private String widgetTemplateText(String name, Object settings, 
 	                            Locale locale, FormDesignerView formDesignerView, boolean readOnly) {
-		def styles = settings."${locale.language}".styles
+		String language = locale.language == 'en' ? 'en' : "${locale.language}_${locale.country}"
+		def styles = settings."${language}".styles
 		String fontWeight = styles.fontStyles[0] == 1 ? 'bold' : 'normal'
     String fontStyle = styles.fontStyles[1] == 1 ? 'italic' : 'normal'
     String textDecoration = styles.fontStyles[2] == 1 ? 'underline' : 'none'
@@ -48,14 +50,26 @@ class SingleLineText extends Widget {
 	  String valueBackgroundColor = settings.styles.value.backgroundColor == 'default' ? FormBuilderConstants.EMPTY_STRING : "background-color: #${settings.styles.value.backgroundColor}; "
 	  String descriptionColor = settings.styles.description.color == 'default' ? FormBuilderConstants.EMPTY_STRING : "color: #${settings.styles.description.color}; "
 	  String descriptionBackgroundColor = settings.styles.description.backgroundColor == 'default' ? FormBuilderConstants.EMPTY_STRING : "background-color: #${settings.styles.description.backgroundColor}; "
- 
+    String textField
+	  String value = formDesignerView ? settings."${language}".value : "\${domainInstance.${name}}" 
+	  if (!readOnly) {
+		  textField = """\
+		  [@g.textField name="${name}" class="textInput" value="${value}" 
+		    style="${fontFamily}font-weight: ${fontWeight}; font-style: ${fontStyle}; \
+		    text-decoration: ${textDecoration}; ${fontSize}${valueColor}${valueBackgroundColor}" /]		  
+		  """
+	  } else {
+		  textField = """\
+		  <span class="textOutput" style="${fontFamily}font-weight: ${fontWeight}; font-style: ${fontStyle}; \
+		  text-decoration: ${textDecoration}; ${fontSize}${valueColor}${valueBackgroundColor}">
+		  \${domainInstance.${name}}
+		  </span>"""
+	  }
 	  return """<div><label for="${name}" style="font-weight: ${fontWeight}; font-style: ${fontStyle}; ${fontSize}">
 		  <em>${settings.required ? '*' : FormBuilderConstants.EMPTY_STRING}</em>
-		  <span style="text-decoration: ${textDecoration};">${settings."${locale.language}".label}</span></label>
-		  [@g.textField name="${name}" class="textInput" value="${settings."${locale.language}".value}" 
-		    style="${fontFamily}font-weight: ${fontWeight}; font-style: ${fontStyle}; \
-		    text-decoration: ${textDecoration}; ${fontSize}${valueColor}${valueBackgroundColor}" /]
-	    <p class="formHint" style="${descriptionColor}${descriptionBackgroundColor}">${settings."${locale.language}".description}</p></div>"""
+		  <span style="text-decoration: ${textDecoration};">${settings."${language}".label}</span></label>
+      ${textField}
+	    <p class="formHint" style="${descriptionColor}${descriptionBackgroundColor}">${settings."${language}".description}</p></div>"""
   }
 								
  String getFieldConstraints(Object settings) {
@@ -67,8 +81,7 @@ class SingleLineText extends Widget {
  }
  								
  String getWidgetReadOnlyTemplateText(String name, Object settings,
-									                    Locale locale, FormDesignerView formDesignerView) {
-														
-    return null
+									                    Locale locale, FormDesignerView formDesignerView) {														
+    return widgetTemplateText(name, settings, locale, formDesignerView, true)
   }
 }

@@ -36,8 +36,6 @@ class Field {
 		type nullable:false
 		settings nullable:false
 		sequence nullable:false
-		dateCreated blank:false
-		lastUpdated nullable:true
 	}
 	
 	static belongsTo = [form:Form]

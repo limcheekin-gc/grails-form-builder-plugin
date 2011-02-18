@@ -22,8 +22,8 @@ import grails.test.*
 *
 * @since 0.1
 */
-class DomainClassGenerationServiceTests extends GrailsUnitTestCase {
-	def domainClassGenerationService
+class DomainClassServiceTests extends GrailsUnitTestCase {
+	def domainClassService
     protected void setUp() {
         super.setUp()
     }
@@ -37,9 +37,9 @@ class DomainClassGenerationServiceTests extends GrailsUnitTestCase {
 		form.fieldsList << new Field(
 			name: 'name',
 			type: 'SingleLineText',
-			settings: '{"required":true,"restriction":"alphanumeric"}'
+			settings: '{"_persistable":true,"required":true,"restriction":"alphanumeric"}'
 		)
-		assertEquals('name', 'bookForm.BookForm', domainClassGenerationService.getName(form))
+		assertEquals('name', 'bookForm.BookForm', domainClassService.getName(form))
 		String source = """\
 package bookForm
 class BookForm {
@@ -48,10 +48,8 @@ Date dateCreated
 Date lastUpdated
 static constraints = {
 name nullable:false, blank:false, alphanumeric:true, maxSize:255
-dateCreated blank:false
-lastUpdated nullable:true
 }
 }"""
-		assertEquals('source', source, domainClassGenerationService.getSource(form))
+		assertEquals('source', source, domainClassService.getSource(form))
     }
 }

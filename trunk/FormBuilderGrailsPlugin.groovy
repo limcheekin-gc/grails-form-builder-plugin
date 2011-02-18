@@ -28,8 +28,11 @@ class FormBuilderGrailsPlugin {
     def dependsOn = [jqueryValidationUi:'1.1.1 > *', 
 								     jqueryUi:'1.8.6 > *', 
 									   jqueryJson:'2.2 > *',
-									   freemarkerTags:'0.5.5 > *',
-									   uniForm:'1.5 > *']
+									   freemarkerTags:'0.5.8 > *',
+									   uniForm:'1.5 > *',
+									   jqueryDatatables:'1.7.5 > *',
+									   quartz:'0.4.2 > *'
+									   ]
 	
     // resources that are excluded from plugin packaging
     def pluginExcludes = [

@@ -29,7 +29,5 @@ class DomainClass {
   static constraints = {
 	  name blank:false, unique: true, size:5..255
 	  source blank:false, maxSize:10000
-	  dateCreated blank:false
-	  lastUpdated nullable:true
     }
 }

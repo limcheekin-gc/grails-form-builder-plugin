@@ -28,9 +28,11 @@ import grails.converters.JSON
  */
 abstract class Widget {
 	
-	String getTemplateText(Field field, Integer index, Locale locale, Boolean readOnly = false, FormDesignerView formDesignerView = null) {
+	String getTemplateText(Field field, Integer index, Locale locale, Boolean readOnly = false, FormDesignerView formDesignerView = null, Object settings = null) {
 		FastStringWriter out = new FastStringWriter()
-		Object settings = JSON.parse(field.settings)
+		if (!settings) {
+		   settings = JSON.parse(field.settings)
+		}
 		out << '<div class="ctrlHolder ' 
 		out << getFieldClasses(settings, locale)
 		out << '" rel="'
@@ -66,9 +68,8 @@ abstract class Widget {
 		return out.toString()
 	}
 	
-	String getConstraints(Field field) {
+	String getConstraints(Field field, Object settings) {
 		FastStringWriter out = new FastStringWriter()
-		Object settings = JSON.parse(field.settings)
 		out << "${field.name} "
 		if (settings.required) {
 			out << "nullable:false, blank:false"
@@ -89,4 +90,8 @@ abstract class Widget {
 	String getFieldClasses(Object settings, Locale locale) { return FormBuilderConstants.EMPTY_STRING	}
 	String getFieldStyles(Object settings, Locale locale) { return FormBuilderConstants.EMPTY_STRING	}
 	String getFieldConstraints(Object settings) { return FormBuilderConstants.EMPTY_STRING	}
+	String getFieldValue(Object settings, Locale locale) { 
+		String language = locale.language == 'en' ? 'en' : "${locale.language}_${locale.country}"
+		return settings."${language}".value	
+	}
 }
