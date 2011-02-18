@@ -112,9 +112,9 @@ grails.plugins.freemarkertags = [
  ]
 
 formBuilder {
-	persistableFields = ['SingleLineText']
+	reloadUpdatedDomainClassesInMs = 60000
 	SingleLineText {
 		type = 'String'
-		defaultConstraints = 'maxSize:255'
+		defaultConstraints = [maxSize: 255]
 	}
 }

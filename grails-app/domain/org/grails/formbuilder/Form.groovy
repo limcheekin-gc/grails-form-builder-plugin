@@ -17,6 +17,7 @@ package org.grails.formbuilder
 
 import org.apache.commons.collections.list.LazyList
 import org.apache.commons.collections.FactoryUtils
+import org.codehaus.groovy.grails.plugins.freemarker.FreeMarkerTemplate
 /**
  *
  * @author <a href='mailto:limcheekin@vobject.com'>Lim Chee Kin</a>
@@ -27,11 +28,14 @@ class Form {
 	String name
 	String description
 	String settings
-	String templateSource
-	String domainClassCode
-	String domainClassFullName
+	DomainClass domainClass
+	/* FreeMarkerTemplate createViewTemplate
+	FreeMarkerTemplate editViewTemplate
+	FreeMarkerTemplate showViewTemplate */
 	Integer numberOfColumnInList
 	Integer numberOfRowPerPage
+	Integer persistableFieldsCount
+	Boolean domainClassSourceUpdated
 	Date dateCreated
 	Date lastUpdated
 	
@@ -39,14 +43,15 @@ class Form {
 		name blank: false, unique: true
 		description nullable:true, blank: true
 		settings nullable:false, blank: false
-		templateSource nullable:true, blank: true
-		domainClassCode nullable:true, blank: true
-		domainClassFullName nullable:true, blank: true
-		numberOfColumnInList nullable:true, blank: true 
+		domainClass nullable:false, unique: true
+		/* createViewTemplate nullable:false, unique: true
+		editViewTemplate nullable:false, unique: true
+		showViewTemplate nullable:false, unique: true */
+		numberOfColumnInList nullable:true, blank: true
 		numberOfRowPerPage nullable:true, blank: true
+		persistableFieldsCount nullable:false, min: 1
+		domainClassSourceUpdated nullable:true
 		fieldsList nullable:false, minSize: 1
-		dateCreated blank:false
-		lastUpdated nullable:true
 	}
 	
 	List fieldsList = new ArrayList()
@@ -54,6 +59,7 @@ class Form {
 	
 	static mapping = { 
 		fieldsList cascade:"all-delete-orphan", sort: "sequence", lazy: false 
+		domainClass cascade:"all"
 	}
 	
 	// From: http://omarello.com/2010/08/grails-one-to-many-dynamic-forms/

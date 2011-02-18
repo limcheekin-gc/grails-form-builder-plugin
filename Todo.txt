@@ -1,0 +1,1 @@
+1. like keyword HQL non string property

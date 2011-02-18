@@ -1,23 +1,26 @@
-<%@ page import="org.springframework.web.servlet.support.RequestContextUtils" %>
-<g:set var="locale" value="${RequestContextUtils.getLocale(request)}" />
-<% String language = locale.language == 'en' ? 'en' : "${locale.language}_${locale.country}" %>
-
 <html>
     <head>
-        <title><g:layoutTitle default="Grails" /> | Grails Form Builder | Form Designer</title>
+        <title><g:layoutTitle default="Grails" /> | Grails Form Builder | Form Viewer</title>
         <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'formbuilder.css')}" />  
         <g:javascript library="jquery" plugin="jquery" />
         <jqui:resources theme="smoothness" />
-        <jqJson:resources />
-        <uf:resources />    
-        <jqfb:resources />      
+        <uf:resources />     
         <langs:resources />
-        <script type="text/javascript" src="${resource(dir:'js',file:'jquery.qtip.min.js')}"></script>
-        <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'jquery.qtip.css')}" />  
-        <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'formbuilder.css')}" />  
         <g:layoutHead />
         <style type="text/css">
-
+					#footer {
+						clear: both;
+						text-align: center;
+						margin-top: 5px;
+					}
+					
+					/* Plain Text field */
+					.uniForm .ctrlHolder .PlainText { padding-top: 0; padding-bottom: 0 }
+					.uniForm .topAlign { padding-top: 0; padding-bottom: 2em; }
+					.uniForm .bottomAlign { padding-top: 2em; padding-bottom: 0; }
+					div.rightAlign { text-align: right; }
+					div.centerAlign { text-align: center; }					
         </style>
     </head>
     <body>
@@ -28,7 +31,7 @@
           <div class="logo"><a href="http://grails.org"><img src="${resource(dir:'images',file:'grails_logo.png')}" alt="Grails" border="0" /></a> <div style="color: grey; font-size: 20pt; margin-top: -35px; padding-left:165px; position:relative">Form Builder</div></div>
           <div class="nav">
             <g:pageProperty name="page.nav" />
-            <langs:selector langs="en, zh_CN" default="${language}" />
+            <langs:selector langs="en, zh_CN" default="${flash.language}" />
           </div>
         </div>
         <g:layoutBody />
