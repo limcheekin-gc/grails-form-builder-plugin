@@ -1,4 +1,4 @@
-/* Copyright 2010 the original author or authors.
+/* Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import org.grails.formbuilder.DomainClass
 /**
  *
  * @author <a href='mailto:limcheekin@vobject.com'>Lim Chee Kin</a>
@@ -23,20 +23,25 @@ class FormBuilderGrailsPlugin {
     // the plugin version
     def version = "0.1"
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "1.3.6 > *"
+    def grailsVersion = "1.2.2 > *"
     // the other plugins this plugin depends on
-    def dependsOn = [jqueryValidationUi:'1.1.1 > *', 
-								     jqueryUi:'1.8.6 > *', 
-									   jqueryJson:'2.2 > *',
-									   freemarkerTags:'0.5.8 > *',
-									   uniForm:'1.5 > *',
-									   jqueryDatatables:'1.7.5 > *',
-									   quartz:'0.4.2 > *'
-									   ]
+    def dependsOn = [
+		  jquery:'1.4.2.7',
+		  jqueryUi:'1.8.6',
+      dynamicDomainClass: '0.2.1 > *',
+			jqueryJson:'2.2 > *',
+			freemarkerTags:'0.5.8 > *',
+			uniForm:'1.5 > *',
+			jqueryDatatables:'1.7.5 > *',
+			jqueryValidationUi:'1.2 > *',
+			langSelector:'0.3 > *',
+			quartz:'0.4.2 > *',
+			jqueryFormBuilder:'0.1'
+			]
 	
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-            "grails-app/views/error.gsp"
+        "grails-app/views/error.gsp"
     ]
 
     def author = "Lim Chee Kin"
@@ -67,7 +72,12 @@ class FormBuilderGrailsPlugin {
     }
 
     def doWithApplicationContext = { applicationContext ->
-        // TODO Implement post initialization spring config (optional)
+      if (DomainClass.count()) {
+		    DomainClass.executeUpdate('update DomainClass d set d.updated=false')
+				DomainClass.list().each { domainClass ->
+					applicationContext.domainClassService.registerDomainClass domainClass.source
+				}
+		}
     }
 
     def onChange = { event ->

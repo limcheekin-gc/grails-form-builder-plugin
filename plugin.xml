@@ -1,4 +1,4 @@
-<plugin name='form-builder' version='0.1' grailsVersion='1.3.6 &gt; *'>
+<plugin name='form-builder' version='0.1' grailsVersion='1.2.2 &gt; *'>
   <author>Lim Chee Kin</author>
   <authorEmail>limcheekin@vobject.com</authorEmail>
   <title>Grails Form Builder Plugin - Create Online Forms without Coding</title>
@@ -21,17 +21,22 @@
     <resource>org.grails.formbuilder.DomainClass</resource>
     <resource>org.grails.formbuilder.Field</resource>
     <resource>org.grails.formbuilder.Form</resource>
+    <resource>org.grails.formbuilder.ReloadUpdatedDomainClassesJob</resource>
     <resource>org.grails.formbuilder.DomainClassService</resource>
     <resource>org.grails.formbuilder.FormTemplateService</resource>
     <resource>org.grails.formbuilder.FormViewerTemplateService</resource>
   </resources>
   <dependencies>
-    <plugin name='jqueryValidationUi' version='1.1.1 &gt; *' />
+    <plugin name='dynamicDomainClass' version='0.2.1 &gt; *' />
+    <plugin name='jqueryValidationUi' version='1.2 &gt; *' />
     <plugin name='jqueryUi' version='1.8.6 &gt; *' />
     <plugin name='jqueryJson' version='2.2 &gt; *' />
     <plugin name='freemarkerTags' version='0.5.8 &gt; *' />
     <plugin name='uniForm' version='1.5 &gt; *' />
     <plugin name='jqueryDatatables' version='1.7.5 &gt; *' />
+    <plugin name='langSelector' version='0.3 &gt; *' />
+    <plugin name='quartz' version='0.4.2 &gt; *' />
+    <plugin name='jqueryFormBuilder' version='0.1' />
   </dependencies>
   <behavior />
 </plugin>

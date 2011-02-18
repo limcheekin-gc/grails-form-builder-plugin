@@ -73,7 +73,7 @@ class FormController {
 			    }
 			  formInstance.domainClass = domainClassService.getDomainClass(formInstance)
 			  formInstance.persistableFieldsCount = formTemplateService.getPersistableFieldsCount(formInstance.fieldsList) 
-			  // domainClassService.registerDomainClass formInstance.domainClass.source
+			  domainClassService.registerDomainClass formInstance.domainClass.source
 		if (formInstance.save(flush: true)) {
 				flash.message = "${message(code: 'default.created.message', args: [message(code: 'form.label', default: 'Form'), formInstance.id])}"
         redirect(action: "show", id: formInstance.id)
@@ -155,7 +155,7 @@ class FormController {
 	  if (newPersistableFieldsCount != formInstance.persistableFieldsCount) {
 		  formInstance.persistableFieldsCount = newPersistableFieldsCount
 		  formInstance.domainClass.source = domainClassService.getSource(formInstance)
-		  formInstance.domainClassSourceUpdated = true
+		  formInstance.domainClass.updated = true
 	  } else { // formInstance.isDirty('fieldsList') always return false
 		  def newPersistentFields = formInstance.fieldsList.findAll { field ->
 			  field.settings.indexOf(FormBuilderConstants.PERSISTABLE) > -1
@@ -165,7 +165,7 @@ class FormController {
 		  if (!newPersistentFields.containsAll(oldPersistentFields)) {
 			  log.debug "!newPersistentFields.containsAll(oldPersistentFields)"
 			  formInstance.domainClass.source = domainClassService.getSource(formInstance)
-			  formInstance.domainClassSourceUpdated = true
+			  formInstance.domainClass.updated = true
 		  }
 	  }
     }

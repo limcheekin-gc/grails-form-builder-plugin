@@ -30,5 +30,4 @@ grails.project.dependency.resolution = {
     }
 }
 
-grails.plugin.location.jqueryFormBuilder="../jquery-form-builder-plugin/grails-plugin"
-// grails.plugin.location.jqueryDatatables="../jquery-datatables"
+// grails.plugin.location.jqueryFormBuilder="../jquery-form-builder-plugin/grails-plugin"

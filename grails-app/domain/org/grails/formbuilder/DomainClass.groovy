@@ -23,11 +23,13 @@ package org.grails.formbuilder
 class DomainClass {
 	String name
 	String source
+	Boolean updated
 	Date dateCreated
 	Date lastUpdated
 	
   static constraints = {
 	  name blank:false, unique: true, size:5..255
 	  source blank:false, maxSize:10000
+	  updated nullable:true
     }
 }

@@ -38,8 +38,8 @@ class FormViewerController {
 	}
 	
 	def list = {
-    Form formInstance = Form.get(params.formId)
-		if (formInstance.domainClassSourceUpdated) {
+    Form formInstance = Form.read(params.formId)
+		if (formInstance.domainClass.updated) {
 		  def domainClass = grailsApplication.getDomainClass(formInstance.domainClass.name)
 		  formViewerTemplateService.handleDomainClassSourceUpdated(formInstance, domainClass)
 		}
@@ -56,7 +56,7 @@ class FormViewerController {
 	}
 
 	def listData = {
-		Form form = Form.get(params.formId)
+		Form form = Form.read(params.formId)
 		def domainClass = grailsApplication.getDomainClass(form.domainClass.name)
 		def domainInstance = domainClass.newInstance()
 		formViewerTemplateService.handleDomainClassSourceUpdated(form, domainClass)
@@ -86,32 +86,29 @@ class FormViewerController {
 		}
 		String query = queryWithOrder.toString()
 		queryWithOrder.append(" order by d.${fieldsToRender[params.iSortCol_0 as int]} ${params.sSortDir_0}")
-
-		def domainObjects = []
+		def dataRows
+		String selectQuery = "select ${fieldsToRender.collect { "d.${it}" }.join(',')} ${queryWithOrder.toString()}"
+		// println "selectQuery = $selectQuery"
 		if ( params.sSearch ) {
-		  // println "queryWithOrder = ${queryWithOrder.toString()}"
 		  dataToRender.iTotalDisplayRecords = domainClass.clazz.executeQuery("select count(d.id) ${query}", [filter: "%${params.sSearch}%"])[0]
-		  domainObjects = domainClass.clazz.findAll(queryWithOrder.toString(),
+		  // findAll throwing SQLException after domain class reloaded, so using executeQuery
+		  dataRows = domainClass.clazz.executeQuery(selectQuery,
 			  [filter: "%${params.sSearch}%"],
 			  [max: params.iDisplayLength as int, offset: params.iDisplayStart as int])
 		} else {
-		  domainObjects = domainClass.clazz.findAll(queryWithOrder.toString(),
+		  dataRows = domainClass.clazz.executeQuery(selectQuery,
 			  [max: params.iDisplayLength as int, offset: params.iDisplayStart as int])
 		}
 		
-		def data
-		domainObjects?.each { domainObject ->
-			data = []
-			fieldsToRender.each { prop ->
-				data << domainObject."${prop}"
-			}
-		  dataToRender.aaData << data
+		dataRows?.each { dataRow ->
+			// println "dataRow = ${dataRow}"
+		  dataToRender.aaData << dataRow
 		}
 		render dataToRender as JSON
    }
 	
 	def create = {
-		Form formInstance = Form.get(params.formId)
+		Form formInstance = Form.read(params.formId)
 		def domainClass = grailsApplication.getDomainClass(formInstance.domainClass.name)
 		def domainInstance = domainClass.newInstance()
 		formViewerTemplateService.handleDomainClassSourceUpdated(formInstance, domainClass)
@@ -121,7 +118,7 @@ class FormViewerController {
 	}
 	
 	def save = {
-		Form formInstance = Form.get(params.formId)
+		Form formInstance = Form.read(params.formId)
 		def domainClass = grailsApplication.getDomainClass(formInstance.domainClass.name)
 		def domainInstance = domainClass.newInstance()   
 		// setProperties(domainClass, domainInstance, params)
@@ -140,7 +137,7 @@ class FormViewerController {
 	}
 	
 	def show = {
-    Form formInstance = Form.get(params.formId)
+    Form formInstance = Form.read(params.formId)
 		def domainClass = grailsApplication.getDomainClass(formInstance.domainClass.name)
 		def domainInstance = domainClass.clazz.get(params.id)		
 		if (!domainInstance) {
@@ -156,7 +153,7 @@ class FormViewerController {
 	}
 	
 	def edit = {
-		Form formInstance = Form.get(params.formId)
+		Form formInstance = Form.read(params.formId)
 		def domainClass = grailsApplication.getDomainClass(formInstance.domainClass.name)
 		def domainInstance = domainClass.clazz.get(params.id)
 		if (!domainInstance) {
@@ -172,7 +169,7 @@ class FormViewerController {
 	}
 	
 	def update = {
-		Form formInstance = Form.get(params.formId)
+		Form formInstance = Form.read(params.formId)
 		def domainClass = grailsApplication.getDomainClass(formInstance.domainClass.name)
 		def domainInstance = domainClass.clazz.get(params.id)
 		if (domainInstance) { 
@@ -206,7 +203,7 @@ class FormViewerController {
 	}
 	
 	def delete = {
-		Form formInstance = Form.get(params.formId)
+		Form formInstance = Form.read(params.formId)
 		def domainClass = grailsApplication.getDomainClass(formInstance.domainClass.name)
 		def domainInstance = domainClass.clazz.get(params.id)
 		if (domainInstance) {

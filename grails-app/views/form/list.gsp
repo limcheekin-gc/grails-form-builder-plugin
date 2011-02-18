@@ -17,7 +17,7 @@
           margin-right: auto;
         }  
         .col1 {
-          width: 490px;
+          width: 460px;
           font-size: 16px;
 			    font-weight: bold;
 			    line-height: 17px;
@@ -53,11 +53,12 @@
                     <g:each in="${formInstanceList}" status="i" var="formInstance">
 				                        <% 
 										   name = JSON.parse(formInstance.settings)."${language}".name 
+										   rowCount = grailsApplication.getDomainClass(formInstance.domainClass.name).clazz.count()
 										%>
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                            <td class="col1"><g:link action="show" id="${formInstance.id}">${name}</g:link></td>
                            <td>
-                             <span class="menuButton"><g:link class="list" controller="${FormBuilderConstants.FORM_VIEWER_CONTROLLER}" action="list" params="[formId:formInstance.id]">List</g:link></span>
+                             <span class="menuButton"><g:link class="list" controller="${FormBuilderConstants.FORM_VIEWER_CONTROLLER}" action="list" params="[formId:formInstance.id]">List (${rowCount})</g:link></span>
                              <span class="menuButton"><g:link class="create" controller="${FormBuilderConstants.FORM_VIEWER_CONTROLLER}" action="create" params="[formId:formInstance.id]">New</g:link></span>
                            </td>                        
                         </tr>

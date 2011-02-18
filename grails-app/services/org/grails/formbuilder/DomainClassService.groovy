@@ -80,10 +80,10 @@ class DomainClassService {
 	
 	def reloadUpdatedDomainClasses(Date lastExecuted) {
 		log.debug "reloadDomainClasses() executing..."
-		if (DomainClass.countByLastUpdatedGreaterThan(lastExecuted)) {
-			def updatedDomainClasses = DomainClass.findAllByLastUpdatedGreaterThan(lastExecuted)
+		if (DomainClass.countByUpdatedAndLastUpdatedGreaterThan(true, lastExecuted)) {
+			def updatedDomainClasses = DomainClass.findAllByUpdatedAndLastUpdatedGreaterThan(true, lastExecuted)
 			// From: http://www.intelligrape.com/blog/2010/09/29/gorm-batch-deletes-made-easy-with-load-method/
-			updatedDomainClasses*.discard() // detach all objects from session
+			// updatedDomainClasses*.discard() // detach all objects from session
 			updatedDomainClasses.each { domainClass ->
 				registerDomainClass domainClass.source
 			}
