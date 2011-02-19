@@ -51,7 +51,7 @@ class SingleLineText extends Widget {
 	  String descriptionColor = settings.styles.description.color == 'default' ? FormBuilderConstants.EMPTY_STRING : "color: #${settings.styles.description.color}; "
 	  String descriptionBackgroundColor = settings.styles.description.backgroundColor == 'default' ? FormBuilderConstants.EMPTY_STRING : "background-color: #${settings.styles.description.backgroundColor}; "
     String textField
-	  String value = formDesignerView ? settings."${language}".value : "\${domainInstance.${name}}" 
+	  String value = formDesignerView ? settings."${language}".value : "\${domainInstance.${name}!''}" 
 	  if (!readOnly) {
 		  textField = """\
 		  [@g.textField name="${name}" class="textInput" value="${value}" 
@@ -62,7 +62,7 @@ class SingleLineText extends Widget {
 		  textField = """\
 		  <span class="textOutput" style="${fontFamily}font-weight: ${fontWeight}; font-style: ${fontStyle}; \
 		  text-decoration: ${textDecoration}; ${fontSize}${valueColor}${valueBackgroundColor}">
-		  [#if domainInstance.${name}?exists]\${domainInstance.${name}}[/#if]
+		  [@g.fieldValue bean=domainInstance field="${name}" /]
 		  </span>"""
 	  }
 	  return """<div><label for="${name}" style="font-weight: ${fontWeight}; font-style: ${fontStyle}; ${fontSize}">

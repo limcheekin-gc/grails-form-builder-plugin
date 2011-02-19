@@ -116,7 +116,9 @@ class FormViewerTemplateService {
 	}
 	
 	def handleDomainClassSourceUpdated(Form form, def domainClass, def domainInstance = null) {
-		if (form.domainClass.updated) {
+		def reloadUpdatedDomainClassesInMs = grailsApplication.config.formBuilder.reloadUpdatedDomainClassesInMs
+		if (form.domainClass.updated && 
+			form.domainClass.lastUpdated > new Date(System.currentTimeMillis() -  reloadUpdatedDomainClassesInMs)) {
 			def propertyNames = domainClass.persistentProperties*.name.findAll { !FormBuilderConstants.DOMAIN_CLASS_SYSTEM_FIELDS.contains(it) }
 			if (domainInstance && form.persistableFieldsCount < propertyNames.size()) {
 				def fieldsListNames = form.fieldsList*.name
@@ -128,6 +130,7 @@ class FormViewerTemplateService {
 					propertyNames.contains(field.name) ||
 					field.settings.indexOf(FormBuilderConstants.PERSISTABLE) == -1
 				}
+				form.discard()
 			}
 		}
 	}
