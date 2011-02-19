@@ -2,3 +2,8 @@
 2. Possible optimization: join all domain classes source with "\n" and pass it to registerDomainClass()
 3. Improve error handling when form instance not found in FormViewerController
 4. Meaningful validation error message and client side validation for form viewer
+5. Field removal not working especially for non-nullable property/column. Solution: 
+a) Drop the deleted property/column programmatically
+b) Change the non-nullable column to nullable.
+c) Assign default value to supposed deleted column
+6. setDefaultValue(): Default value should assign to non-nullable property only

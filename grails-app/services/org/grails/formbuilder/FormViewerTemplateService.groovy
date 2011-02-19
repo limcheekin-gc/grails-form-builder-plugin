@@ -116,7 +116,7 @@ class FormViewerTemplateService {
 	}
 	
 	def handleDomainClassSourceUpdated(Form form, def domainClass, def domainInstance = null) {
-		def reloadUpdatedDomainClassesInMs = grailsApplication.config.formBuilder.reloadUpdatedDomainClassesInMs
+		def reloadUpdatedDomainClassesInMs = grailsApplication.config.formBuilder.reloadUpdatedDomainClassesInMs * 1.1
 		if (form.domainClass.updated && 
 			form.domainClass.lastUpdated > new Date(System.currentTimeMillis() -  reloadUpdatedDomainClassesInMs)) {
 			def propertyNames = domainClass.persistentProperties*.name.findAll { !FormBuilderConstants.DOMAIN_CLASS_SYSTEM_FIELDS.contains(it) }
