@@ -5,9 +5,8 @@
         <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'formbuilder.css')}" />  
         <g:javascript library="jquery" plugin="jquery" />
         <jqui:resources theme="smoothness" />
-        <uf:resources />     
+        <uf:resources type="css" />   
         <langs:resources />
-        <g:layoutHead />
         <style type="text/css">
 					#footer {
 						clear: both;
@@ -22,6 +21,7 @@
 					div.rightAlign { text-align: right; }
 					div.centerAlign { text-align: center; }					
         </style>
+        <g:layoutHead />        
     </head>
     <body>
         <div id="spinner" class="spinner" style="display:none;">

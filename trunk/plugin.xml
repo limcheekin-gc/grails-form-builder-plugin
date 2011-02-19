@@ -27,13 +27,14 @@
     <resource>org.grails.formbuilder.FormViewerTemplateService</resource>
   </resources>
   <dependencies>
+    <plugin name='jquery' version='1.4.2.7' />
+    <plugin name='jqueryUi' version='1.8.6' />
     <plugin name='dynamicDomainClass' version='0.2.1 &gt; *' />
-    <plugin name='jqueryValidationUi' version='1.2 &gt; *' />
-    <plugin name='jqueryUi' version='1.8.6 &gt; *' />
     <plugin name='jqueryJson' version='2.2 &gt; *' />
     <plugin name='freemarkerTags' version='0.5.8 &gt; *' />
     <plugin name='uniForm' version='1.5 &gt; *' />
     <plugin name='jqueryDatatables' version='1.7.5 &gt; *' />
+    <plugin name='jqueryValidationUi' version='1.2 &gt; *' />
     <plugin name='langSelector' version='0.3 &gt; *' />
     <plugin name='quartz' version='0.4.2 &gt; *' />
     <plugin name='jqueryFormBuilder' version='0.1' />
