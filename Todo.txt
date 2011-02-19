@@ -1,1 +1,2 @@
 1. like keyword HQL non string property
+2. Possible optimization: join all domain classes source with "\n" and pass it to registerDomainClass()

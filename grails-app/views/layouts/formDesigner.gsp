@@ -9,16 +9,16 @@
         <g:javascript library="jquery" plugin="jquery" />
         <jqui:resources theme="smoothness" />
         <jqJson:resources />
-        <uf:resources />    
+        <uf:resources type="css" />
         <jqfb:resources />      
         <langs:resources />
         <script type="text/javascript" src="${resource(dir:'js',file:'jquery.qtip.min.js')}"></script>
         <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'jquery.qtip.css')}" />  
         <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'formbuilder.css')}" />  
-        <g:layoutHead />
         <style type="text/css">
 
         </style>
+        <g:layoutHead />
     </head>
     <body>
         <div id="spinner" class="spinner" style="display:none;">
