@@ -1,2 +1,4 @@
 1. like keyword HQL non string property
 2. Possible optimization: join all domain classes source with "\n" and pass it to registerDomainClass()
+3. Improve error handling when form instance not found in FormViewerController
+4. Meaningful validation error message and client side validation for form viewer

@@ -14,8 +14,6 @@
 */
 package org.grails.formbuilder
 
-import java.util.List;
-
 import grails.util.GrailsNameUtils
 import org.codehaus.groovy.grails.web.pages.FastStringWriter
 import grails.converters.JSON
