@@ -14,23 +14,23 @@ You can view the latest implementation of [http://code.google.com/p/grails-form-
 <th>API</th><th>Description</th>
 </tr>
 <tr>
-<td>
+<td valign="top">
 {{{
 String getWidgetTemplateText(
   String name, 
   Object settings,
   Locale locale, 
   FormDesignerView formDesignerView)
+}}}
 </td>
 <td>
-Return template text of the widget. <br />
-<p>
-<strong>Arguments:<strong>
+Return template text of the widget.
+
+*Arguments:*
   * *name:* Field name from `Field.name` property.
   * *settings:* JSON object from `Field.settings` property (created using `JSON.parse(field.settings)`).
   * *locate:* locale of current request.
-  * *formDesignerView*: If invoked by `FormViewerTemplateService`, it is null. Otherwise, invoked by `FormViewerTemplateService`, the value can be FormDesignerView.CREATE, FormDesignerView.EDIT or FormDesignerView.SHOW. Please see the latest implementation of [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/src/groovy/org/grails/formbuilder/FormDesignerView.groovy FormDesignerView enum class].
-</p>
+  * *formDesignerView*: If invoked by `FormViewerTemplateService`, it is null. Otherwise, invoked by `FormViewerTemplateService`, the value can be `FormDesignerView.CREATE`, `FormDesignerView.EDIT` or `FormDesignerView.SHOW`. Please see the latest implementation of [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/src/groovy/org/grails/formbuilder/FormDesignerView.groovy FormDesignerView enum class].
 </td>
 </tr>
 </table>
