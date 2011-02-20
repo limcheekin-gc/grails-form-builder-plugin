@@ -164,6 +164,13 @@ You can refer to latest implementation of Form Viewer Controller at [http://code
 ===Dynamic Domain Class===
 When the application startup, it will load and instantiate all Dynamic Domain Classes from  `Form.domainClass` property. This feature enabled by [http://code.google.com/p/grails-dynamic-domain-class-plugin/ Dynamic Domain Class plugin].
 
+=Widget's Class Structure=
+
+http://grails-form-builder-plugin.googlecode.com/svn/wiki/images/architecture/Class_Structure.png
+
+The design of the Form Builder widgets is very simple, each box in the diagram above is a Groovy class by itself, the structure is very similar to [http://code.google.com/p/jquery-form-builder-plugin/wiki/Design#Structural_Design JQuery Form Builder plugin's structural design]. All widgets developed for the Form Builder such as `PlainText`, `SingleLineText`, etc. must extend/inherit from `Widget` class. 
+You can find out more about the `Widget` class by look into the [http://code.google.com/p/grails-form-builder-plugin/wiki/WidgetAPI Widget API documentation].
+
 = Internationalization Support =
 Store the message bundles to database by using [http://grails.org/plugin/localizations localizations] plugin.
 
