@@ -43,6 +43,7 @@ class FormViewerController {
 		  def domainClass = grailsApplication.getDomainClass(formInstance.domainClass.name)
 		  formViewerTemplateService.handleDomainClassSourceUpdated(formInstance, domainClass)
 		}
+		session.formInstance = formInstance 
 	  renderView("list", [formInstance: formInstance, flash: flash], 
 		  formViewerTemplateService.getListViewTemplate(request, flash, formInstance))
 	}
@@ -56,7 +57,7 @@ class FormViewerController {
 	}
 
 	def listData = {
-		Form form = Form.read(params.formId)
+		Form form = session.formInstance?:Form.read(params.formId)
 		def domainClass = grailsApplication.getDomainClass(form.domainClass.name)
 		def domainInstance = domainClass.newInstance()
 		formViewerTemplateService.handleDomainClassSourceUpdated(form, domainClass)
