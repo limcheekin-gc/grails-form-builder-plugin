@@ -10,11 +10,11 @@ grails install-plugin form-builder
 After the plugin installed into your project, the following configurations will be appended to your project's Config.groovy file:
 {{{
 formBuilder {
-	reloadUpdatedDomainClassesInMs = 60000
-	SingleLineText {
-		type = 'String'
-		defaultConstraints = [maxSize: 255]
-	}
+  reloadUpdatedDomainClassesInMs = 60000
+  SingleLineText {
+    type = 'String'
+    defaultConstraints = [maxSize: 255]
+  }
 }
 }}}
   * `reloadUpdatedDomainClassesInMs` allow you to specify interval in millisecond of how frequently the quartz scheduled job checks the `DomainClass.source` update and reload the dynamic domain class if it is updated.
