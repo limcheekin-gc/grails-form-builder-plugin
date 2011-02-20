@@ -1,0 +1,38 @@
+#summary The Widget API documentation.
+#labels Featured,Phase-Design
+
+= Overview =
+The Widget class consists of 2 set API methods:
+  * `abstract` methods must be implemented by subclass
+  * optional methods that have default implementation and may override by subclass
+
+You can view the latest implementation of [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/src/groovy/org/grails/formbuilder/widget/Widget.groovy Widget] class and it's subclasses such as [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/src/groovy/org/grails/formbuilder/widget/PlainText.groovy PlainText] and [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/src/groovy/org/grails/formbuilder/widget/SingleLineText.groovy SingleLineText] for reference.
+
+== API methods MUST implement by subclass ==
+<table border="1">
+<tr>
+<th>API</th><th>Description</th>
+</tr>
+<tr>
+<td>
+{{{
+String getWidgetTemplateText(
+  String name, 
+  Object settings,
+  Locale locale, 
+  FormDesignerView formDesignerView)
+</td>
+<td>
+Return template text of the widget. <br />
+<p>
+<strong>Arguments:<strong>
+  * *name:* Field name from `Field.name` property.
+  * *settings:* JSON object from `Field.settings` property (created using `JSON.parse(field.settings)`).
+  * *locate:* locale of current request.
+  * *formDesignerView*: If invoked by `FormViewerTemplateService`, it is null. Otherwise, invoked by `FormViewerTemplateService`, the value can be FormDesignerView.CREATE, FormDesignerView.EDIT or FormDesignerView.SHOW. Please see the latest implementation of [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/src/groovy/org/grails/formbuilder/FormDesignerView.groovy FormDesignerView enum class].
+</p>
+</td>
+</tr>
+</table>
+
+== API methods MAY implement by subclass ==
