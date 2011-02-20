@@ -90,7 +90,7 @@ abstract class Widget {
 	String getFieldClasses(Object settings, Locale locale) { return FormBuilderConstants.EMPTY_STRING	}
 	String getFieldStyles(Object settings, Locale locale) { return FormBuilderConstants.EMPTY_STRING	}
 	String getFieldConstraints(Object settings) { return FormBuilderConstants.EMPTY_STRING	}
-	String getFieldValue(Object settings, Locale locale) { 
+	Object getFieldValue(Object settings, Locale locale) { 
 		String language = locale.language == 'en' ? 'en' : "${locale.language}_${locale.country}"
 		return settings."${language}".value	
 	}
