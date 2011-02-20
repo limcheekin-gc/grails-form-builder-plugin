@@ -69,7 +69,7 @@ String getFieldClasses(
 }}}
 </td>
 <td>
-Return class string that will be append to class attribute of `<div class="ctrlHolder">` such as `<div class="ctrlHolder topAlign">`.
+Return class string that will be append to `class` attribute of `<div class="ctrlHolder">` such as `<div class="ctrlHolder topAlign">`.
 
 *Arguments:*
   * *settings:* JSON object from `Field.settings` property (created by `JSON.parse(field.settings)`).
@@ -86,7 +86,7 @@ String getFieldStyles(
 }}}
 </td>
 <td>
-Return style string that will be append to style attribute of `<div class="ctrlHolder">` such as `<div class="ctrlHolder topAlign" style="color: #ffffff; background-color: #000000;">`.
+Return style string that will be append to `style` attribute of `<div class="ctrlHolder">` such as `<div class="ctrlHolder topAlign" style="color: #ffffff; background-color: #000000;">`.
 
 *Arguments:*
   * *settings:* JSON object from `Field.settings` property (created by `JSON.parse(field.settings)`).
