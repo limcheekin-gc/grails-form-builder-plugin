@@ -18,9 +18,7 @@ It is GUI to allow Form Editor to create the form and the form properties and fi
 `FreeMarker` chosen to be the template engine of plugin due to the following reasons:
   * `FreeMarker` template do not need compilation.
   * `FreeMarker` template doesn't support Scriptlet (better security).
-  * Better performance compared with GSP as mentioned in this [http://grails.1312388.n4.nabble.com/Freemarker-In-A-Grails-App-td1378733.html discussion topic] and the outcome of micro-benchmarking performed by me at blog post 
-  titled [http://limcheekin.blogspot.com/2011/01/freemarker-vs-gsp-for-dynamic-template.html FreeMarker vs. GSP for Dynamic Template Rendering] and it's
-  [http://limcheekin.blogspot.com/2011/01/freemarker-vs-gsp-for-dynamic-template_27.html Part 2]. 
+  * Better performance compared with GSP as mentioned in this [http://grails.1312388.n4.nabble.com/Freemarker-In-A-Grails-App-td1378733.html discussion topic] and the outcome of micro-benchmarking performed by me at blog post titled [http://limcheekin.blogspot.com/2011/01/freemarker-vs-gsp-for-dynamic-template.html FreeMarker vs. GSP for Dynamic Template Rendering] and it's [http://limcheekin.blogspot.com/2011/01/freemarker-vs-gsp-for-dynamic-template_27.html Part 2]. 
   * There is `FreeMarker` Grails Plugin available at http://www.grails.org/plugin/freemarker.
 The Form Template will be stored database using the [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/grails-app/domain/org/codehaus/groovy/grails/plugins/freemarker/FreeMarkerTemplate.groovy FreeMarkerTemplate] domain class and load by `DatabaseTemplateLoader`.
   
@@ -36,7 +34,7 @@ XHTML is chosen as markup language due to the following reasons:
 ====Form Template Itself====
 The Form Template itself is the most important component of the plugin as it shared by all plugin components. 
 
-The Form Template is FreeMarker template with mixed of FreeMarker GSP tags which enabled by [http://www.grails.org/plugin/freemarker-tags freemarker-tags] plugin.
+The Form Template is `FreeMarker` template with mixed of `FreeMarker` GSP tags which enabled by [http://www.grails.org/plugin/freemarker-tags freemarker-tags] plugin.
 
 Below is Form Template sample code, it is expect to be updated and expanded:
 {{{
@@ -85,7 +83,7 @@ Below is Form Template sample code, it is expect to be updated and expanded:
 			</body>
 		</html>
 }}}  
-You can find out more about current implementation of Form Template [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/src/groovy/org/grails/formbuilder/FormBuilderConstants.groovy here]
+You can find out more about current implementation of Form Template [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/src/groovy/org/grails/formbuilder/FormBuilderConstants.groovy here].
 
 ====Form Domain Class====
 Below is initial design of the Form Domain Class, it is expect to be updated and expanded:
@@ -153,7 +151,7 @@ Form Viewer display the form to Form User to perform data entry operations.
 Viewer UI will be rendered Form Template and JQuery UI widgets to the web browser.
 
 ====Client Side Validation====
-Using the sub-project of this project, JQuery Validation UI Plugin at http://code.google.com/p/jquery-validation-ui-plugin/.
+Using the sub-project of this project, [http://code.google.com/p/jquery-validation-ui-plugin JQuery Validation UI Plugin].
 
 === Dynamic Views===
 The body of the views will be rendered by `FreeMarker` Template Engine for given `FreeMarker` Form Template text.  
@@ -161,7 +159,7 @@ The body of the views will be rendered by `FreeMarker` Template Engine for given
 ===Dynamic Controller===
 The Form Viewer Controller is Dynamic Controller that works dynamically based on the loaded `Form`, `Field` and Dynamic Domain Classes.
 
-You can refer to latest implementation of Form Viewer Controller at [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/grails-app/controllers/org/grails/formbuilder/FormViewerController.groovy here]
+You can refer to latest implementation of Form Viewer Controller at [http://code.google.com/p/grails-form-builder-plugin/source/browse/trunk/grails-app/controllers/org/grails/formbuilder/FormViewerController.groovy here].
 
 ===Dynamic Domain Class===
 When the application startup, it will load and instantiate all Dynamic Domain Classes from  `Form.domainClass` property. This feature enabled by [http://code.google.com/p/grails-dynamic-domain-class-plugin/ Dynamic Domain Class plugin].
