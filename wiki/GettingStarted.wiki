@@ -19,6 +19,8 @@ formBuilder {
 }}}
   * `reloadUpdatedDomainClassesInMs` allow you to specify interval in millisecond of how frequently the quartz scheduled job checks the `DomainClass.source` update and reload the dynamic domain class if it is updated.
 
+*Note:* You need to change the value of `dbCreate` from `create-drop` to `update` in `DataSource.groovy` file even for development environment, otherwise the form builder plugin will not work properly.
+
 =Run the application=
 Run your application with the following command:
 {{{
